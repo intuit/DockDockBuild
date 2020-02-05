@@ -1,0 +1,97 @@
+{
+  parserClass = "name.kropp.intellij.makefile.MakefileParser"
+  extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix = "Makefile"
+  psiImplClassSuffix = "Impl"
+  psiPackage = "name.kropp.intellij.makefile.psi"
+  psiImplPackage = "name.kropp.intellij.makefile.psi.impl"
+
+  elementTypeHolderClass = "name.kropp.intellij.makefile.psi.MakefileTypes"
+  elementTypeClass = "name.kropp.intellij.makefile.psi.MakefileElementType"
+  tokenTypeClass = "name.kropp.intellij.makefile.psi.MakefileTokenType"
+
+  tokens = [
+    TAB = "\t"
+    COLON = ":"
+    DOUBLECOLON = "::"
+    SEMICOLON = ";"
+    ASSIGN = "="
+    PIPE = "|"
+    KEYWORD_INCLUDE = "include"
+    KEYWORD_IFEQ = "ifeq"
+    KEYWORD_IFNEQ = "ifneq"
+    KEYWORD_IFDEF = "ifdef"
+    KEYWORD_IFNDEF = "ifndef"
+    KEYWORD_ELSE = "else"
+    KEYWORD_ENDIF = "endif"
+    KEYWORD_ENDEF = "endef"
+    KEYWORD_DEFINE = "define"
+    KEYWORD_UNDEFINE = "undefine"
+    KEYWORD_OVERRIDE = "override"
+    KEYWORD_EXPORT = "export"
+    KEYWORD_PRIVATE = "private"
+    KEYWORD_VPATH = "vpath"
+
+    FUNCTION_ERROR = "$(error"
+    FUNCTION_WARNING = "$(warning"
+    FUNCTION_INFO = "$(info"
+    FUNCTION_SHELL = "$(shell"
+    FUNCTION_WILDCARD = "$(wildcard"
+    FUNCTION_PATHSUBST = "$(pathsubst"
+    FUNCTION_END = ")"
+  ]
+
+  psiImplUtilClass = "name.kropp.intellij.makefile.psi.MakefilePsiImplUtil"
+}
+
+makefile ::= any*
+
+private any ::= (conditional|rule|command|variable-assignment|directive|function|macro)
+
+private directive ::= define|include|undefine|override|export|privatevar|vpath
+
+rule ::= target_line recipe {methods=[getTargets]}
+recipe ::= (command|conditional|empty_command)* {methods=[isEmpty]}
+command ::= '\t'* multiline
+private multiline ::= (line (split line?)* | (split line?)+)
+empty_command ::= '\t'+
+
+target_line ::= targets (':'|'::') (target_pattern ':')? (exportvar|override|privatevar|variable-assignment|prerequisites ';'? EOL?) {pin=2 methods=[getTargetName]}
+targets ::= target+
+target ::= identifier|variable_usage {mixin="name.kropp.intellij.makefile.psi.impl.MakefileNamedElementImpl" implements=["name.kropp.intellij.makefile.psi.MakefileNamedElement" "com.intellij.navigation.NavigationItem"] stubClass="name.kropp.intellij.makefile.stub.MakefileTargetStubElement"   elementTypeFactory="name.kropp.intellij.makefile.psi.MakefileTargetStubElementType.getInstance" methods=[getName setName getNameIdentifier getPresentation isSpecialTarget isPatternTarget matches getDocComment]}
+
+target_pattern ::= identifier
+
+prerequisites ::= normal_prerequisites ('|' order_only_prerequisites)?
+normal_prerequisites ::= prerequisite* (split prerequisite*)*
+order_only_prerequisites ::= prerequisite* (split prerequisite*)*
+prerequisite ::= identifier|variable_usage|function {mixin="name.kropp.intellij.makefile.psi.impl.MakefilePrerequisiteMixin" methods=[updateText isPhonyTarget]}
+
+private conditional-keyword ::= ('ifeq'|'ifneq'|'ifdef'|'ifndef')
+conditional ::= conditional-keyword condition block ('else' (conditional-keyword condition block | EOL block))* 'endif'
+block ::= any+|empty_command?
+
+meta variable-assignment ::= variable assignment (function|variable-value?) {pin=2 methods=[getAssignment getValue]}
+private assignment ::= ('='|':='|'::='|'?='|'!='|'+=')
+variable ::= identifier
+meta variable-value ::= multiline
+define ::= 'define' variable assignment? (variable-value-line split?)* 'endef' {pin=1 methods=[getAssignment getValue]}
+undefine ::= 'undefine' variable EOL {pin=1}
+override ::= 'override' variable-assignment {pin=1}
+export ::= 'export' (variable-assignment|variable)? EOL {pin=1}
+private exportvar ::= 'export' variable-assignment {pin=1}
+privatevar ::= 'private' variable-assignment {pin=1}
+
+include ::= ('include'|'-include'|'sinclude') filename+ EOL {pin=1}
+filename ::= identifier {mixin="name.kropp.intellij.makefile.psi.impl.MakefileFilenameMixin"}
+
+vpath ::= 'vpath' (pattern directory*)? EOL {pin=1}
+pattern ::= identifier
+directory ::= identifier {mixin="name.kropp.intellij.makefile.psi.impl.MakefileFilenameMixin"}
+
+function ::= ('$(error'|'$(warning'|'$(info'|'$(shell'|'$(wildcard'|'$(pathsubst') function-param* ')'
+meta function-param ::= function-param-text|variable_usage
+
+comment ::=
+doc_comment ::=

@@ -1,0 +1,23 @@
+Makefile
+  MakefileVariableAssignmentImpl(VARIABLE_ASSIGNMENT)
+    MakefileVariableImpl(VARIABLE)
+      PsiElement(identifier)('SHELL')
+    PsiWhiteSpace(' ')
+    PsiElement(=)(':=')
+    MakefileVariableValueImpl(VARIABLE_VALUE)
+      PsiElement(line)(' /bin/bash')
+  PsiWhiteSpace('\n\n')
+  MakefileConditionalImpl(CONDITIONAL)
+    PsiElement(ifneq)('ifneq')
+    PsiElement(condition)(' ("$(wildcard foo.mk)","")')
+    PsiWhiteSpace('\n')
+    MakefileBlockImpl(BLOCK)
+      <empty list>
+    PsiElement(else)('else')
+    PsiWhiteSpace(' ')
+    PsiElement(ifneq)('ifneq')
+    PsiElement(condition)(' ("$(wildcard bar.mk)","")')
+    PsiWhiteSpace('\n')
+    MakefileBlockImpl(BLOCK)
+      <empty list>
+    PsiElement(endif)('endif')
