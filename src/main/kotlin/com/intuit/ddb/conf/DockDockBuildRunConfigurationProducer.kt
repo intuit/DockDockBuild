@@ -18,8 +18,8 @@ class DockDockBuildRunConfigurationProducer : LazyRunConfigurationProducer<DockD
 
 
     // get IntelliJ context and create DockDockBuildRunConfiguration
-    public override fun setupConfigurationFromContext(configuration: DockDockBuildRunConfiguration, context: ConfigurationContext,
-                                                      sourceElement: Ref<PsiElement>?): Boolean {
+    override fun setupConfigurationFromContext(configuration: DockDockBuildRunConfiguration,
+                                               context: ConfigurationContext, sourceElement: Ref<PsiElement>): Boolean {
 
         if (context.psiLocation?.containingFile !is MakefileFile) {
             return false

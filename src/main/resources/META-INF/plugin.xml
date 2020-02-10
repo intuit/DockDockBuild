@@ -8,9 +8,10 @@
 
   <change-notes>Initial plugin release</change-notes>
 
-  <idea-version since-build="191.0"/>
+  <idea-version since-build="192.0"/>
 
   <depends>com.intellij.modules.lang</depends>
+  <depends>com.intellij.modules.java</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="name.kropp.intellij.makefile.MakefileFileTypeFactory"/>

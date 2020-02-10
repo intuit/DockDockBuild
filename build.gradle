@@ -20,9 +20,12 @@ apply plugin: 'jacoco'
 group 'com.intuit.intellij'
 
 intellij {
-    version '2019.1'
+    version '2019.2'
     pluginName rootProject.name
+    /* set compatibility range to be *from* IntelliJ version
+    and not constrict to specific major build */
     updateSinceUntilBuild false
+    plugins 'java'
 }
 
 repositories {
