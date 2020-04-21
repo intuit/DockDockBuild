@@ -8,7 +8,7 @@ import name.kropp.intellij.makefile.psi.MakefileTarget
 import name.kropp.intellij.makefile.psi.MakefileVariable
 
 class MakefileFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, MakefileLanguage) {
-  override fun getFileType() = MakefileFileType
+  override fun getFileType() = MakefileFileType.INSTANCE
 
   override fun toString() = "Makefile"
 

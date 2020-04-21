@@ -14,10 +14,8 @@ class RemoveRuleFix(private val rule: MakefileRule) : BaseIntentionAction() {
   override fun isAvailable(project: Project, editor: Editor?, psiFile: PsiFile?) = true
 
   override fun invoke(project: Project, editor: Editor?, psiFile: PsiFile?) {
-    object : WriteCommandAction.Simple<Any>(project, psiFile) {
-      override fun run() {
-        rule.delete()
-      }
-    }.execute()
+    WriteCommandAction.writeCommandAction(project, psiFile).run<RuntimeException> {
+      rule.delete()
+    }
   }
 }

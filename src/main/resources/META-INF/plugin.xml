@@ -1,12 +1,15 @@
 <idea-plugin>
   <id>com.intuit.intellij.makefile</id>
   <name>DockDockBuild</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <vendor email="hila_goel@intuit.com" url="https://www.intuit.com/">Intuit</vendor>
 
   <description>Support for running UNIX Makefiles on a Docker container</description>
 
-  <change-notes>Initial plugin release</change-notes>
+  <change-notes>Remove IntelliJ deprecated classes usages
+    1. FileTypeFactory
+    2. WriteCommandAction.Simple
+  </change-notes>
 
   <idea-version since-build="192.0"/>
 
@@ -14,7 +17,8 @@
   <depends>com.intellij.modules.java</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory implementation="name.kropp.intellij.makefile.MakefileFileTypeFactory"/>
+    <fileType name="Makefile" implementationClass="name.kropp.intellij.makefile.MakefileFileType"
+              fieldName="INSTANCE" language="Makefile" extensions="mk;makefile" fileNamesCaseInsensitive="makefile"/>
     <lang.parserDefinition language="Makefile" implementationClass="name.kropp.intellij.makefile.MakefileParserDefinition"/>
     <lang.syntaxHighlighterFactory language="Makefile" implementationClass="name.kropp.intellij.makefile.MakefileSyntaxHighlighterFactory"/>
     <lang.foldingBuilder language="Makefile" implementationClass="name.kropp.intellij.makefile.MakefileFoldingBuilder"/>

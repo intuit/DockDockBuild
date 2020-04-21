@@ -8,7 +8,7 @@ import name.kropp.intellij.makefile.MakefileFileType
 
 object MakefileElementFactory {
   fun createFile(project: Project, text: String) =
-      PsiFileFactory.getInstance(project).createFileFromText("Makefile", MakefileFileType, text) as MakefileFile
+      PsiFileFactory.getInstance(project).createFileFromText("Makefile", MakefileFileType.INSTANCE, text) as MakefileFile
 
   fun createRule(project: Project, target: String) =
       createFile(project, "$target:\n").firstChild as MakefileRule
