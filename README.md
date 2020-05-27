@@ -5,7 +5,6 @@ DockDockBuild is an open source plugin for IntelliJ that dockerizes your makefil
 
 ![logo](https://github.com/intuit/DockDockBuild/blob/master/images/logo_banner.png?raw=true)
 
-[![Build Status](https://travis-ci.com/intuit/DockDockBuild.svg?branch=master)](https://travis-ci.com/intuit/DockDockBuild)
 [![codecov](https://codecov.io/gh/intuit/DockDockBuild/branch/master/graph/badge.svg)](https://codecov.io/gh/intuit/DockDockBuild)
 [![GitHub release](https://img.shields.io/github/release/intuit/DockDockBuild.svg)](https://github.com/intuit/DockDockBuild/releases)
 
