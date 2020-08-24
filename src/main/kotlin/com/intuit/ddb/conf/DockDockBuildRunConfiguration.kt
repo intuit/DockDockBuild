@@ -145,7 +145,7 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         val jarRegex = Regex("DockDockBuild.jar")
         var classpath = ""
 
-        for (cp in (CmdProcessBuilder::class.java.protectionDomain.classLoader as PluginClassLoader).urls) {
+        for (cp in (CmdProcessBuilder::class.java.classLoader as PluginClassLoader).urls) {
             if (jarRegex.containsMatchIn(cp.file)) {
                 classpath = cp.path
                 break

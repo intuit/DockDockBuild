@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.intuit.intellij.makefile</id>
   <name>DockDockBuild</name>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <vendor email="hila_goel@intuit.com" url="https://www.intuit.com/">Intuit</vendor>
 
   <description>Support for running UNIX Makefiles on a Docker container</description>
@@ -11,7 +11,7 @@
     Gradle - 6.3
   </change-notes>
 
-  <idea-version since-build="201.3803.71"/>
+  <idea-version since-build="202.4357.23"/>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.java</depends>

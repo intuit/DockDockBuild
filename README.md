@@ -30,7 +30,7 @@ Prerequisites
   1. Docker - see installation instructions for [Mac][Mac], [Windows][Windows] and [Ubuntu][Ubuntu].
       >Please note that in some cases, it is recommended that Mac and Windows users install [Docker Toolbox][Docker Toolbox] rather than Docker Desktop, as the latter might cause compatibility issues with Hyper-V - read more [here](https://docs.docker.com/docker-for-mac/docker-toolbox/).
   		
-  2. IntelliJ 2020.01 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
+  2. IntelliJ 2020.02 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
   
 Installation
 ------------
