@@ -6,12 +6,12 @@
 
   <description>Support for running UNIX Makefiles on a Docker container</description>
 
-  <change-notes>Remove IntelliJ deprecated classes usages
-    1. FileTypeFactory
-    2. WriteCommandAction.Simple
+  <change-notes>Update versions:
+    Kotlin - 1.3.72
+    Gradle - 6.3
   </change-notes>
 
-  <idea-version since-build="192.0"/>
+  <idea-version since-build="201.3803.71"/>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.java</depends>

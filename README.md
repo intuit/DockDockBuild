@@ -4,28 +4,24 @@ DockDockBuild: Docker Based Makefile Support for IntelliJ-Based IDEs
 DockDockBuild is an open source plugin for IntelliJ that dockerizes your makefile compilation.
 
 ![logo](https://github.com/intuit/DockDockBuild/blob/master/images/logo_banner.png?raw=true)
-
+[![Build Status](https://travis-ci.com/intuit/DockDockBuild.svg?branch=master)](https://travis-ci.com/intuit/DockDockBuild)
 [![codecov](https://codecov.io/gh/intuit/DockDockBuild/branch/master/graph/badge.svg)](https://codecov.io/gh/intuit/DockDockBuild)
 [![GitHub release](https://img.shields.io/github/release/intuit/DockDockBuild.svg)](https://github.com/intuit/DockDockBuild/releases)
+[![IntelliJ plugin](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
 
 
 When compiling a target in a makefile, this plugin builds a docker container and runs the compilation in that container. 
 The container shares the host's code root path by using *Docker's volume mapping*, making the compiled code available and persistent. 
   
 DockDockBuild allows developers to compile their project on an immutable, uniform environment, 
-without dedicated installations on their machine - just docker.
+without dedicated installations on their machine - just Docker.
 
 This plugin fully supports GNU Make syntax, and provides:
 
  * Syntax highlighting
- * Keyword & target name completion
  * Run configurations
  * Gutter marks & context actions to run targets
- * Quick-doc for ## comments on target line
- * *Find Usages* and *Go To Symbol* navigation for targets
- * Prerequisites resolution
- * Rules, variables and conditionals folding
- * Quick fixes to create new rule from unresolved prerequisite and remove empty rule
+ * and more
   
 Based on https://plugins.jetbrains.com/plugin/9333-makefile-support
 
@@ -34,13 +30,13 @@ Prerequisites
   1. Docker - see installation instructions for [Mac][Mac], [Windows][Windows] and [Ubuntu][Ubuntu].
       >Please note that in some cases, it is recommended that Mac and Windows users install [Docker Toolbox][Docker Toolbox] rather than Docker Desktop, as the latter might cause compatibility issues with Hyper-V - read more [here](https://docs.docker.com/docker-for-mac/docker-toolbox/).
   		
-  2. IntelliJ 2019.01 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
+  2. IntelliJ 2020.01 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
   
 Installation
 ------------
 ### From the IntelliJ Plugin Marketplace
-In Settings, click on Plugins. You will find DockDockBuild in the Marketplace tab. 
-Click on **Install**. 
+In Settings, click on Plugins. You will find DockDockBuild in the Marketplace tab.
+Click on **Install**.
 
 ###### You may be required to restart your IDE following the installation.
 ### From zip
@@ -90,27 +86,7 @@ time you compile a target.
 runs installations etc.  
 
 ### Additional Configuration for Docker-Toolbox Users
-If you are using Docker Toolbox, you need to set up your Virtual Machine to enable folder sharing between your host machine
-and the VM.
-In order to compile your target on a container, your code root folder needs to be shared with the container. 
-Since your container is running using the VirtualBox hypervisor, you need to allow your VM access to the relevant folder:
-1. Make sure Docker Toolbox is not running, by running the `docker-machine stop` command in your terminal.
-2. Open VirtualBox.
-3. Right-click on the machine that is used by Docker-Toolbox. It is usually named "default", unless you have changed it 
-manually.
-4. Click on "Settings", and go to the Shared Folders tab: ![shared folders screen.jpg](https://github.com/intuit/DockDockBuild/blob/master/images/vm_shared_folders_screen.JPG?raw=true)
-Click on the **+** button.
-5. Select your project's code root folder, and **give it the same name as defined in your DockDockBuild run configuration as code root**.
-  > For Windows users:
- Please note that the path configuration cannot include any special characters. For example,
-To define the path *C:/Users/Me/MyProject*, the configuration should be */c/Users/Me/MyProject*.
-6. Start Docker Toolbox by running the command `docker-machine start` in your terminal.
-7. Connect to your docker-machine by SSH: `docker-machine ssh`.
-8. Create a folder as a mount point for your volume, for example - `mkdir mount_here`.
-9. Mount the shared folder, which you have defined in VirtualBox, at the folder you have created - 
-`sudo mount -t vboxsf -o uid=1000,gid=50 MyProject /home/docker/mount_here`.
-
-Your docker machine now has access to your project's source code root. 
+[Here](./DOCKER_TOOLBOX_SETUP.md)
 
 Usage
 -----
@@ -140,8 +116,8 @@ To build & test the plugin in IDE run `./gradlew runIdea`
 
 The plugin uses [Grammar-Kit][Grammar-Kit] to generate parser and lexer. Please install [Grammar-Kit plugin][Grammar-Kit plugin] and refer to the documentation if you want to modify grammar.
 
-To regenerate parser, open Makefile.bnf and press Ctrl+Shift+G (Cmd+Shift+G on Mac)
-To regenerate lexer, open Makefile.flex and press Ctrl+Shift+G (Cmd+Shift+G on Mac)
+To regenerate a parser, open Makefile.bnf and press Ctrl+Shift+G (Cmd+Shift+G on Mac)
+To regenerate a lexer, open Makefile.flex and press Ctrl+Shift+G (Cmd+Shift+G on Mac)
 
 Please make sure to add test to MakefileParserTest.kt for any parser modifications.
  
