@@ -21,8 +21,6 @@ class MakefileParserDefinition : ParserDefinition {
   override fun getCommentTokens() = COMMENTS
   override fun getStringLiteralElements() = TokenSet.EMPTY
 
-  override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
-
   override fun createFile(viewProvider: FileViewProvider) = MakefileFile(viewProvider)
 
   override fun createParser(project: Project?) = MakefileParser()
