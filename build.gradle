@@ -68,7 +68,6 @@ jar {
 dependencies {
     compileProcessBuilder
     implementation "com.fasterxml.jackson.core:jackson-core:2.9.9"
-    implementation "com.fasterxml.jackson.core:jackson-core:2.9.9"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.9.9"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation "org.hamcrest:hamcrest-all:1.3"
