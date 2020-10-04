@@ -3,6 +3,7 @@ package name.kropp.intellij.makefile
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference
@@ -49,9 +50,10 @@ class MakefileAnnotator : Annotator {
         }
 
         if (!targetReferences && !fileReferenceResolved) {
-          holder.createWeakWarningAnnotation(element, "Unresolved prerequisite").registerFix(CreateRuleFix(element))
+          holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Unresolved prerequisite").range(element)
+                  .withFix(CreateRuleFix(element)).create()
         } else if (unresolvedFile != null) {
-          holder.createWeakWarningAnnotation(unresolvedFile!!, "File not found")
+          holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "File not found").range(unresolvedFile!!).create()
         }
       }
     } else if (element is MakefileVariable) {
