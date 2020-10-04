@@ -1,6 +1,6 @@
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
-class MakefileTargetRenameTest : LightPlatformCodeInsightFixtureTestCase() {
+class MakefileTargetRenameTest : BasePlatformTestCase() {
   fun testSimple() = doTest("qwerty")
 
 
