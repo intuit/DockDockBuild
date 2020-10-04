@@ -1,6 +1,6 @@
 package com.intuit.ddb
 
-import com.intellij.execution.ExecutorRegistry
+import com.intellij.execution.Executor
 import com.intellij.execution.Location
 import com.intellij.execution.PsiLocation
 import com.intellij.execution.RunManagerEx
@@ -28,6 +28,6 @@ class DockDockBuildRunTargetAction(private val target: MakefileTarget) : AnActio
         val configuration = producer.findOrCreateConfigurationFromContext(context)?.configurationSettings ?: return
 
         (context.runManager as RunManagerEx).setTemporaryConfiguration(configuration)
-        ExecutionUtil.runConfiguration(configuration, ExecutorRegistry.getInstance().registeredExecutors.first())
+        ExecutionUtil.runConfiguration(configuration, Executor.EXECUTOR_EXTENSION_NAME.extensionList.first())
     }
 }
