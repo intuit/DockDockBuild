@@ -4,13 +4,13 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 
 class MakefileCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
-  override fun getDefaultCommonSettings() = CommonCodeStyleSettings(MakefileLanguage).apply {
-    initIndentOptions().apply {
+  override fun customizeDefaults(commonSettings: CommonCodeStyleSettings,
+                                 indentOptions: CommonCodeStyleSettings.IndentOptions) {
+    super.customizeDefaults(commonSettings, indentOptions.apply {
       INDENT_SIZE = 4
       USE_TAB_CHARACTER = true
-    }
+    })
   }
-
 
   override fun getCodeSample(settingsType: SettingsType): String {
     return """# Simple Makefile
