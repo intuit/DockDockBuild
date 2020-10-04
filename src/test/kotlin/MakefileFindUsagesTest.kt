@@ -1,12 +1,12 @@
 import com.intellij.codeInsight.TargetElementUtil
 import com.intellij.find.FindManager
 import com.intellij.find.impl.FindManagerImpl
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import org.hamcrest.collection.IsCollectionWithSize.hasSize
 import org.hamcrest.core.IsNull.nullValue
 import org.junit.Assert.assertThat
 
-class MakefileFindUsagesTest : LightPlatformCodeInsightFixtureTestCase() {
+class MakefileFindUsagesTest : BasePlatformTestCase() {
   fun testSimple() {
     val usages = myFixture.testFindUsages("$testDataPath/$basePath/${getTestName(true)}.mk")
 
