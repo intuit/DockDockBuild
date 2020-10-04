@@ -1,16 +1,14 @@
-import com.intellij.testFramework.*
-import com.intellij.testFramework.fixtures.*
+import com.intellij.testFramework.PlatformTestUtil
 
-class MakefileStructureViewTest : BasePlatformTestCase() {
+class MakefileStructureViewTest : DockDockTestCase() {
   fun testSimple() {
     val filename = "${getTestName(true)}.mk"
-    myFixture.configureByFile("$testDataPath/$basePath/$filename")
+    myFixture.configureByFile("$basePath/$filename")
     myFixture.testStructureView {
       PlatformTestUtil.expandAll(it.tree)
       PlatformTestUtil.assertTreeEqual(it.tree, "-simple.mk\n all\n hello\n world\n")
     }
   }
 
-  override fun getTestDataPath() = "testData"
   override fun getBasePath() = "structure"
 }
