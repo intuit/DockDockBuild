@@ -16,14 +16,16 @@ class MakefileAnnotator : Annotator {
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
     if (element is MakefileRule && element.isUnused()) {
-      holder.createInfoAnnotation(element, "Redundant rule").apply {
-        highlightType = ProblemHighlightType.LIKE_UNUSED_SYMBOL
-        registerFix(RemoveRuleFix(element))
-      }
+      holder.newAnnotation(HighlightSeverity.INFORMATION, "Redundant rule").range(element)
+              .highlightType(ProblemHighlightType.LIKE_UNUSED_SYMBOL)
+              .withFix(RemoveRuleFix(element)).create()
     } else if (element is MakefileTarget && !(element.parent.parent.parent as MakefileRule).isUnused()) {
-      holder.createInfoAnnotation(element, null).textAttributes = if (element.isSpecialTarget) MakefileSyntaxHighlighter.SPECIAL_TARGET else MakefileSyntaxHighlighter.TARGET
+      holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element)
+              .textAttributes(if (element.isSpecialTarget) MakefileSyntaxHighlighter.SPECIAL_TARGET else MakefileSyntaxHighlighter.TARGET)
+              .create()
     } else if (element is MakefilePrerequisite) {
-      holder.createInfoAnnotation(element, null).textAttributes = MakefileSyntaxHighlighter.PREREQUISITE
+      holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element)
+              .textAttributes(MakefileSyntaxHighlighter.PREREQUISITE).create()
 
       if (Regex("""\$\((.*)\)""").matches(element.text)) {
         return
@@ -57,13 +59,16 @@ class MakefileAnnotator : Annotator {
         }
       }
     } else if (element is MakefileVariable) {
-      holder.createInfoAnnotation(element, null).textAttributes = MakefileSyntaxHighlighter.VARIABLE
+      holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element)
+              .textAttributes(MakefileSyntaxHighlighter.VARIABLE).create()
     } else if (element is MakefileVariableValue) {
       element.node.getChildren(lineTokenSet).forEach {
-        holder.createInfoAnnotation(it, null).textAttributes = MakefileSyntaxHighlighter.VARIABLE_VALUE
+        holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(it)
+                .textAttributes(MakefileSyntaxHighlighter.VARIABLE_VALUE).create()
       }
     } else if (element is MakefileFunction) {
-      holder.createInfoAnnotation(element.firstChild, null).textAttributes = MakefileSyntaxHighlighter.FUNCTION
+      holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element.firstChild)
+              .textAttributes(MakefileSyntaxHighlighter.FUNCTION).create()
     }
   }
 
