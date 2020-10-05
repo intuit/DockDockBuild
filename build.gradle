@@ -25,7 +25,7 @@ intellij {
     /* set compatibility range to be *from* IntelliJ version
     and not constrict to specific major build */
     updateSinceUntilBuild false
-    plugins 'java'
+    plugins = ['java']
 }
 
 repositories {
