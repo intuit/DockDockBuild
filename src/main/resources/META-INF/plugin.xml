@@ -14,7 +14,7 @@
   <idea-version since-build="202.4357.23"/>
 
   <depends>com.intellij.modules.lang</depends>
-  <depends>com.intellij.modules.java</depends>
+  <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <fileType name="Makefile" implementationClass="name.kropp.intellij.makefile.MakefileFileType"
