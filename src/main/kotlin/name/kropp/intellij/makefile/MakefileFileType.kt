@@ -5,7 +5,7 @@ import com.intellij.openapi.fileTypes.*
 import com.intellij.openapi.util.IconLoader
 import javax.swing.Icon
 
-val MakefileIcon = IconLoader.getIcon("/ddb/icon/DockDockBuild15pxl.png")
+val MakefileIcon = IconLoader.getIcon("/ddb/icon/DockDockBuild15pxl.png", MakefileFileType::class.java)
 val MakefileTargetIcon = AllIcons.RunConfigurations.TestState.Run!!
 
 class MakefileFileType : LanguageFileType(MakefileLanguage) {

@@ -1,6 +1,5 @@
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase
 
-class MakefileFoldingTest : LightPlatformCodeInsightFixtureTestCase() {
+class MakefileFoldingTest : DockDockTestCase() {
   fun testRule() = doTest()
   fun testVariable() = doTest()
   fun testDefine() = doTest()
@@ -8,6 +7,5 @@ class MakefileFoldingTest : LightPlatformCodeInsightFixtureTestCase() {
 
   fun doTest() = myFixture.testFolding("$testDataPath/$basePath/${getTestName(true)}.mk")
 
-  override fun getTestDataPath() = "testData"
   override fun getBasePath() = "folding"
 }
