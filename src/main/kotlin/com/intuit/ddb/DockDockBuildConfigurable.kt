@@ -12,8 +12,9 @@ import javax.swing.JComponent
 import javax.swing.JTextField
 
 // Docker Make project config
-class DockDockBuildConfigurable(project: Project?, private val settings: DockDockBuildProjectSettings) : Configurable {
+class DockDockBuildConfigurable(project: Project?) : Configurable {
 
+    private val settings = DockDockBuildProjectSettings()
     private val dockerPathField = TextFieldWithBrowseButton()
     private val codePathField = TextFieldWithBrowseButton()
     private val mavenCachePathField = TextFieldWithBrowseButton()
