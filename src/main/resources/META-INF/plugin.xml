@@ -1,15 +1,13 @@
 <idea-plugin>
   <id>com.intuit.intellij.makefile</id>
   <name>DockDockBuild</name>
-  <version>1.0.12</version>
+  <version>1.0.13</version>
   <vendor email="hila_goel@intuit.com" url="https://www.intuit.com/">Intuit</vendor>
 
   <description>Support for running UNIX Makefiles on a Docker container</description>
 
-  <change-notes>1. Fix tests
-    2. Update deprecated IntelliJ APIs
-    3. Update deprecated Gradle definitions
-    4. Remove com.intellij.modules.java dependency
+  <change-notes>
+    1. Update deprecated IntelliJ APIs
   </change-notes>
 
   <idea-version since-build="202.4357.23"/>
