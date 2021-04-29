@@ -115,13 +115,13 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
 
         // Plugin (project) configuration
         val dockerPath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings?.dockerPath ?: getDefaultDockerPath()
+                settings.dockerPath
         val codePath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings?.codePath ?: getDefaultCodePath(project)
+                settings.codePath
         val m2Path = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings?.mavenCachePath ?: getDefaultM2Path()
+                settings.mavenCachePath
         val advancedDockerSettings = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings?.advancedDockerSettings ?: ""
+                settings.advancedDockerSettings
 
         // Runtime configurations
         // on host

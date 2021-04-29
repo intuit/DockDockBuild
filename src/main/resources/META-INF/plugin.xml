@@ -10,7 +10,7 @@
     1. Update deprecated IntelliJ APIs
   </change-notes>
 
-  <idea-version since-build="202.4357.23"/>
+  <idea-version since-build="202.6948.69"/>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.platform</depends>

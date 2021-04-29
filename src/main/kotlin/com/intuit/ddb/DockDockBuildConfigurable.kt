@@ -12,16 +12,18 @@ import javax.swing.JComponent
 import javax.swing.JTextField
 
 // Docker Make project config
-class DockDockBuildConfigurable(project: Project?) : Configurable {
+class DockDockBuildConfigurable(project: Project) : Configurable {
 
-    private val settings = DockDockBuildProjectSettings()
+    private val settings = project.getService(DockDockBuildProjectSettings::class.java)
     private val dockerPathField = TextFieldWithBrowseButton()
     private val codePathField = TextFieldWithBrowseButton()
     private val mavenCachePathField = TextFieldWithBrowseButton()
     private val advancedDockerSettingsField = JTextField()
-    private val defaultCodePath = getDefaultCodePath(project!!)
 
     init {
+        // a hack since we don't always have 'project' in DockDockBuildProjectSettings
+        settings.settings.codePath = settings.settings.codePath.ifEmpty { getDefaultCodePath(project) }
+
         dockerPathField.addBrowseFolderListener(PLUGIN_NAME, "Path to Docker executable", project,
                 FileChooserDescriptor(true, false, false, false, false, false))
         codePathField.addBrowseFolderListener(PLUGIN_NAME, "Path to code root", project,
@@ -31,19 +33,19 @@ class DockDockBuildConfigurable(project: Project?) : Configurable {
     }
 
     override fun isModified(): Boolean {
-        return (settings.settings?.dockerPath != dockerPathField.text) ||
-                (settings.settings?.codePath != codePathField.text) ||
-                (settings.settings?.mavenCachePath != mavenCachePathField.text) ||
-                (settings.settings?.advancedDockerSettings != advancedDockerSettingsField.text)
+        return (settings.settings.dockerPath != dockerPathField.text) ||
+                (settings.settings.codePath != codePathField.text) ||
+                (settings.settings.mavenCachePath != mavenCachePathField.text) ||
+                (settings.settings.advancedDockerSettings != advancedDockerSettingsField.text)
     }
 
     override fun getDisplayName() = PLUGIN_NAME
 
     override fun apply() {
-        settings.settings?.dockerPath = dockerPathField.text
-        settings.settings?.codePath = codePathField.text
-        settings.settings?.mavenCachePath = mavenCachePathField.text
-        settings.settings?.advancedDockerSettings = advancedDockerSettingsField.text
+        settings.settings.dockerPath = dockerPathField.text
+        settings.settings.codePath = codePathField.text
+        settings.settings.mavenCachePath = mavenCachePathField.text
+        settings.settings.advancedDockerSettings = advancedDockerSettingsField.text
     }
 
     override fun createComponent(): JComponent {
@@ -64,10 +66,10 @@ class DockDockBuildConfigurable(project: Project?) : Configurable {
     }
 
     override fun reset() {
-        dockerPathField.text = settings.settings?.dockerPath ?: getDefaultDockerPath()
-        codePathField.text = settings.settings?.codePath ?: defaultCodePath
-        mavenCachePathField.text = settings.settings?.mavenCachePath ?: getDefaultM2Path()
-        advancedDockerSettingsField.text = settings.settings?.advancedDockerSettings ?: ""
+        dockerPathField.text = settings.settings.dockerPath
+        codePathField.text = settings.settings.codePath
+        mavenCachePathField.text = settings.settings.mavenCachePath
+        advancedDockerSettingsField.text = settings.settings.advancedDockerSettings
     }
 
     override fun getHelpTopic() = null
