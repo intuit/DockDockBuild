@@ -17,7 +17,7 @@ class MakefileTargetRunLineMarkerContributor : RunLineMarkerContributor() {
         if (targetList.firstOrNull() == target &&
             targetList.any { !it.isSpecialTarget }) {
           // IGNORE ERR
-          return Info(MakefileTargetIcon, { "" }, targetList.map(::DockDockBuildRunTargetAction).toTypedArray())
+          return Info(MakefileTargetIcon, { "" }, *targetList.map(::DockDockBuildRunTargetAction).toTypedArray())
         }
       }
     }

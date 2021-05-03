@@ -54,7 +54,7 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
                 .addSeparator()
                 .addLabeledComponent("&Makefile", makeFilenameField)
                 .addLabeledComponent("&Target", targetField)
-                .addLabeledComponent("&Environment Script", envScriptPathField)
+                .addLabeledComponent("&Environment script", envScriptPathField)
                 .addSeparator()
                 .addComponent(environmentVarsComponent)
                 .panel
@@ -91,7 +91,7 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
             }
         })
 
-        envScriptPathField.addBrowseFolderListener("Environment script", "Environment script path",
+        envScriptPathField.addBrowseFolderListener("Environment Script", "Environment script path",
                 project, FileChooserDescriptorFactory.createSingleFileDescriptor("sh"))
         envScriptPathField.textField.document.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(event: DocumentEvent) {
