@@ -1,13 +1,13 @@
 <idea-plugin>
   <id>com.intuit.intellij.makefile</id>
   <name>DockDockBuild</name>
-  <version>1.0.14</version>
+  <version>1.0.15</version>
   <vendor email="hila_goel@intuit.com" url="https://www.intuit.com/">Intuit</vendor>
 
   <description>Support for running UNIX Makefiles on a Docker container</description>
 
   <change-notes>
-    1. Fix project settings bug https://github.com/intuit/DockDockBuild/issues/31
+    Fix project settings bug https://github.com/intuit/DockDockBuild/issues/31
   </change-notes>
 
   <idea-version since-build="202.6948.69"/>
