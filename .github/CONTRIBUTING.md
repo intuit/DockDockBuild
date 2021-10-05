@@ -2,9 +2,20 @@
 Contributing to DockDockBuild
 ==========================
 
-Thank you for taking the time to contribute to DockDockBuild.
-Contributing is very easy, just do the followingL
+Thank you for taking the time to contribute to DockDockBuild!
 
+### Run / Debug
+You can run and debug DockDockBuild directly from the IntelliJ.
+Just go to the Gradle toolbar and select runIde:
+
+![gradle_toolbar.png](https://github.com/intuit/DockDockBuild/blob/master/images/gradle_toolbar.png?raw=true)
+
+(You can right-click on the target to run in debug mode)
+
+This will launch a new IDE with your DockDockBuild installed.
+
+### New PR
+To create a new PR please do the following:
 1. Fork the repo
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
