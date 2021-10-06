@@ -6,22 +6,22 @@ import org.hamcrest.core.IsNull.nullValue
 import org.junit.Assert.assertThat
 
 class MakefileFindUsagesTest : DockDockTestCase() {
-  fun testSimple() {
-    val usages = myFixture.testFindUsages("$basePath/${getTestName(true)}.mk")
+    fun testSimple() {
+        val usages = myFixture.testFindUsages("$basePath/${getTestName(true)}.mk")
 
-    assertThat(usages, hasSize(2))
-  }
+        assertThat(usages, hasSize(2))
+    }
 
-  fun testPhony() = notSearchableForUsages()
-  fun testForce() = notSearchableForUsages()
+    fun testPhony() = notSearchableForUsages()
+    fun testForce() = notSearchableForUsages()
 
-  fun notSearchableForUsages() {
-    myFixture.configureByFiles("$basePath/${getTestName(true)}.mk")
-    val targetElement = TargetElementUtil.findTargetElement(myFixture.editor, TargetElementUtil.ELEMENT_NAME_ACCEPTED or TargetElementUtil.REFERENCED_ELEMENT_ACCEPTED)
-    val handler = (FindManager.getInstance(project) as FindManagerImpl).findUsagesManager.getFindUsagesHandler(targetElement!!, false)
+    fun notSearchableForUsages() {
+        myFixture.configureByFiles("$basePath/${getTestName(true)}.mk")
+        val targetElement = TargetElementUtil.findTargetElement(myFixture.editor, TargetElementUtil.ELEMENT_NAME_ACCEPTED or TargetElementUtil.REFERENCED_ELEMENT_ACCEPTED)
+        val handler = (FindManager.getInstance(project) as FindManagerImpl).findUsagesManager.getFindUsagesHandler(targetElement!!, false)
 
-    assertThat(handler, nullValue())
-  }
+        assertThat(handler, nullValue())
+    }
 
-  override fun getBasePath() = "findUsages"
+    override fun getBasePath() = "findUsages"
 }

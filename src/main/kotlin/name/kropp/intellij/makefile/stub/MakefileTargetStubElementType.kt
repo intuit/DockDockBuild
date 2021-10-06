@@ -1,6 +1,10 @@
 package name.kropp.intellij.makefile.stub
 
-import com.intellij.psi.stubs.*
+import com.intellij.psi.stubs.IStubElementType
+import com.intellij.psi.stubs.IndexSink
+import com.intellij.psi.stubs.StubElement
+import com.intellij.psi.stubs.StubInputStream
+import com.intellij.psi.stubs.StubOutputStream
 import name.kropp.intellij.makefile.MakefileLanguage
 import name.kropp.intellij.makefile.TARGET_INDEX_KEY
 import name.kropp.intellij.makefile.psi.MakefileTarget
