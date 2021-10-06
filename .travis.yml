@@ -3,6 +3,7 @@ jdk:
   - openjdk11
 
 script:
+  - ./gradlew ktlintCheck
   - ./gradlew build --scan -s
   - ./gradlew jacocoTestReport
 
