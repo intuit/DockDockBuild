@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 
 class MakefileStructureViewFactory : PsiStructureViewFactory {
-  override fun getStructureViewBuilder(psiFile: PsiFile) = object : TreeBasedStructureViewBuilder() {
-    override fun createStructureViewModel(editor: Editor?) = MakefileStructureViewModel(psiFile)
-  }
+    override fun getStructureViewBuilder(psiFile: PsiFile) = object : TreeBasedStructureViewBuilder() {
+        override fun createStructureViewModel(editor: Editor?) = MakefileStructureViewModel(psiFile)
+    }
 }

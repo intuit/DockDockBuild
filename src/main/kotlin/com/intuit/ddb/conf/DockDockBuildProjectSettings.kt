@@ -8,11 +8,11 @@ import com.intuit.ddb.DockDockBuildSettings
 
 @State(name = "DockDockBuild.Settings", storages = [Storage(StoragePathMacros.WORKSPACE_FILE)])
 class DockDockBuildProjectSettings : PersistentStateComponent<DockDockBuildSettings> {
-  var settings: DockDockBuildSettings = DockDockBuildSettings()
+    var settings: DockDockBuildSettings = DockDockBuildSettings()
 
-  override fun getState() = settings
+    override fun getState() = settings
 
-  override fun loadState(state: DockDockBuildSettings) {
-    settings = state
-  }
+    override fun loadState(state: DockDockBuildSettings) {
+        settings = state
+    }
 }

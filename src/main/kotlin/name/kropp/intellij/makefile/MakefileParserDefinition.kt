@@ -9,24 +9,24 @@ import com.intellij.psi.tree.TokenSet
 import name.kropp.intellij.makefile.psi.MakefileTypes
 
 class MakefileParserDefinition : ParserDefinition {
-  companion object {
-    val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
-    val COMMENTS = TokenSet.create(MakefileTypes.COMMENT, MakefileTypes.DOC_COMMENT)
+    companion object {
+        val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
+        val COMMENTS = TokenSet.create(MakefileTypes.COMMENT, MakefileTypes.DOC_COMMENT)
 
-    val FILE = MakefileStubFileElementType()
-  }
+        val FILE = MakefileStubFileElementType()
+    }
 
-  override fun getFileNodeType() = FILE
-  override fun getWhitespaceTokens() = WHITE_SPACES
-  override fun getCommentTokens() = COMMENTS
-  override fun getStringLiteralElements() = TokenSet.EMPTY
+    override fun getFileNodeType() = FILE
+    override fun getWhitespaceTokens() = WHITE_SPACES
+    override fun getCommentTokens() = COMMENTS
+    override fun getStringLiteralElements() = TokenSet.EMPTY
 
-  override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 
-  override fun createFile(viewProvider: FileViewProvider) = MakefileFile(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider) = MakefileFile(viewProvider)
 
-  override fun createParser(project: Project?) = MakefileParser()
-  override fun createLexer(project: Project?) = MakefileLexerAdapter()
+    override fun createParser(project: Project?) = MakefileParser()
+    override fun createLexer(project: Project?) = MakefileLexerAdapter()
 
-  override fun createElement(node: ASTNode?) = MakefileTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode?) = MakefileTypes.Factory.createElement(node)
 }

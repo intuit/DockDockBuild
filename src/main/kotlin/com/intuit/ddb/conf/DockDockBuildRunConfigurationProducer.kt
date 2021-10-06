@@ -16,10 +16,12 @@ class DockDockBuildRunConfigurationProducer : LazyRunConfigurationProducer<DockD
         return DockDockBuildRunConfigurationFactory(DockDockBuildRunConfigurationType)
     }
 
-
     // get IntelliJ context and create DockDockBuildRunConfiguration
-    override fun setupConfigurationFromContext(configuration: DockDockBuildRunConfiguration,
-                                               context: ConfigurationContext, sourceElement: Ref<PsiElement>): Boolean {
+    override fun setupConfigurationFromContext(
+        configuration: DockDockBuildRunConfiguration,
+        context: ConfigurationContext,
+        sourceElement: Ref<PsiElement>
+    ): Boolean {
 
         if (context.psiLocation?.containingFile !is MakefileFile) {
             return false
@@ -38,13 +40,14 @@ class DockDockBuildRunConfigurationProducer : LazyRunConfigurationProducer<DockD
         return true
     }
 
-    override fun isConfigurationFromContext(configuration: DockDockBuildRunConfiguration,
-                                            context: ConfigurationContext): Boolean {
+    override fun isConfigurationFromContext(
+        configuration: DockDockBuildRunConfiguration,
+        context: ConfigurationContext
+    ): Boolean {
 
         return configuration.makefileFilePath == context.location?.virtualFile?.path &&
-                configuration.target == findTarget(context)?.name &&
-                configuration.dockerfileDir == getDefaultDockerfileDir(configuration.makefileFilePath)
-
+            configuration.target == findTarget(context)?.name &&
+            configuration.dockerfileDir == getDefaultDockerfileDir(configuration.makefileFilePath)
     }
 
     private fun findTarget(context: ConfigurationContext): MakefileTarget? {

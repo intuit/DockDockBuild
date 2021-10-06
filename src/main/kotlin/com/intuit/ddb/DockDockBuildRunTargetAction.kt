@@ -13,10 +13,11 @@ import com.intuit.ddb.conf.DockDockBuildRunConfigurationProducer
 import name.kropp.intellij.makefile.MakefileTargetIcon
 import name.kropp.intellij.makefile.psi.MakefileTarget
 
-
 // This class creates the context and runs the plugin when an event was received
-class DockDockBuildRunTargetAction(private val target: MakefileTarget) : AnAction(PLUGIN_NAME + " ${target.name}",
-        PLUGIN_NAME + " ${target.name}", MakefileTargetIcon) {
+class DockDockBuildRunTargetAction(private val target: MakefileTarget) : AnAction(
+    PLUGIN_NAME + " ${target.name}",
+    PLUGIN_NAME + " ${target.name}", MakefileTargetIcon
+) {
 
     override fun actionPerformed(event: AnActionEvent) {
 

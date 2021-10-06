@@ -17,10 +17,9 @@ import org.jdom.Element
 import java.io.File
 import java.net.URLDecoder
 
-
 // This class handles the *run* configurations of the plugin
 open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDockBuildRunConfigurationFactory, name: String) :
-        LocatableConfigurationBase<RunProfileState>(project, factoryDocker, name) {
+    LocatableConfigurationBase<RunProfileState>(project, factoryDocker, name) {
 
     var makefileFilePath = ""
     var dockerfileDir = ""
@@ -95,12 +94,14 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
                 params.addAll("-cp", decodedCP, PROCESS_TO_RUN, getParamsFile(project))
 
                 val cmd = GeneralCommandLine()
-                        .withExePath("java")
-                        .withWorkDirectory(userDir)
-                        .withEnvironment(environmentVariables.envs)
-                        .withParentEnvironmentType(if (environmentVariables.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE
-                            else GeneralCommandLine.ParentEnvironmentType.NONE)
-                        .withParameters(params.list)
+                    .withExePath("java")
+                    .withWorkDirectory(userDir)
+                    .withEnvironment(environmentVariables.envs)
+                    .withParentEnvironmentType(
+                        if (environmentVariables.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE
+                        else GeneralCommandLine.ParentEnvironmentType.NONE
+                    )
+                    .withParameters(params.list)
 
                 val processHandler = ColoredProcessHandler(cmd)
                 ProcessTerminatedListener.attach(processHandler)
@@ -110,18 +111,17 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         }
     }
 
-
     private fun handleParams() {
 
         // Plugin (project) configuration
-        val dockerPath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings.dockerPath
-        val codePath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings.codePath
-        val m2Path = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings.mavenCachePath
-        val advancedDockerSettings = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java).
-                settings.advancedDockerSettings
+        val dockerPath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+            .settings.dockerPath
+        val codePath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+            .settings.codePath
+        val m2Path = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+            .settings.mavenCachePath
+        val advancedDockerSettings = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+            .settings.advancedDockerSettings
 
         // Runtime configurations
         // on host
@@ -133,12 +133,12 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
 
         // create Parameters obj and write to file to be used in CmdProcessBuilder
         val objectMapper = ObjectMapper()
-        val cmdParams = Parameters(dockerPath, dockerfileDir, dockerImageUrl, isDockerImage.toBoolean(),
-                makefilePath, makefileFileName, target, codePath, m2Path, envScriptPath, advancedDockerSettings)
+        val cmdParams = Parameters(
+            dockerPath, dockerfileDir, dockerImageUrl, isDockerImage.toBoolean(),
+            makefilePath, makefileFileName, target, codePath, m2Path, envScriptPath, advancedDockerSettings
+        )
         objectMapper.writeValue(File(getParamsFile(project)), cmdParams)
-
     }
-
 
     // iterate over IntelliJ's PluginClassLoader and find DockDockBuild.jar classpath to call CmdProcessBuilder
     private fun getClassPath(): String {
@@ -150,9 +150,7 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
                 classpath = cp.path
                 break
             }
-
         }
         return URLDecoder.decode(classpath, "UTF-8")
     }
-
 }
