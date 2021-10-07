@@ -20,10 +20,10 @@ jobs:
       - name: Lint
         run: ./gradlew ktlintCheck
       - name: Build with Gradle
-        run: ./gradlew build --scan -s jacocoTestReport
+        run: ./gradlew build --scan -s
+      - name: Test
+        run: ./gradlew jacocoTestReport
       - name: CodeCov
         uses: codecov/codecov-action@v1
         with:
-          file: target/site/jacoco/jacoco.xml
-
-
+          file: "${buildDir}/reports/report.xml"

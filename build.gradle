@@ -3,6 +3,7 @@ buildscript {
 
     repositories {
         mavenCentral()
+        jcenter()
         maven { url 'https://dl.bintray.com/jetbrains/intellij-plugin-service' }
     }
     dependencies {
@@ -12,7 +13,6 @@ buildscript {
 
 plugins {
     id "org.jetbrains.intellij" version "0.7.3"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
 }
 apply plugin: 'kotlin'
 apply plugin: 'java'
@@ -90,5 +90,34 @@ jacocoTestReport {
             destination file("${buildDir}/reports/report.xml")
         }
     }
+}
+
+configurations {
+    ktlint
+}
+
+dependencies {
+    ktlint "com.pinterest:ktlint:0.42.1"
+    // additional 3rd party ruleset(s) can be specified here
+    // just add them to the classpath (ktlint 'groupId:artifactId:version') and
+    // ktlint will pick them up
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/pinterest/ktlint#usage for more
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
 }
 
