@@ -81,9 +81,13 @@ dependencies {
 
 jacocoTestReport {
     reports {
-        xml.required = true
-        csv.required = false
-        html.required = false
+        html {
+            enabled false
+        }
+        xml {
+            enabled true
+            destination file("${buildDir}/reports/report.xml")
+        }
     }
 }
 
