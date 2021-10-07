@@ -2,10 +2,6 @@ name: Java CI
 
 on:
   pull_request:
-  schedule:
-      - cron: '0 10 * * 0' # weekly
-      branches:
-        - 'master'
 
 jobs:
   build:
