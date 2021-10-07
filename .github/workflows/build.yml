@@ -1,7 +1,6 @@
 name: Java CI
 
 on:
-  push:
   pull_request:
 
 jobs:
@@ -18,8 +17,8 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Build with Gradle
-        run: ./gradlew clean build --scan -s test jacocoTestCoverageVerification
+        run: ./gradlew clean build --scan -s
       - name: Test
-        run: ./gradlew jacocoTestReport --stacktrace --debug
+        run: ./gradlew jacocoTestReport
       - name: CodeCov
         uses: codecov/codecov-action@v1
