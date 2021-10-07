@@ -20,6 +20,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build --scan -s
       - name: Test
-        run: ./gradlew test jacocoTestReport
+        run: ./gradlew test jacocoTestReport --stacktrace --debug
       - name: CodeCov
         uses: codecov/codecov-action@v1
