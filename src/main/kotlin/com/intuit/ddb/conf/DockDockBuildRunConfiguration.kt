@@ -3,7 +3,7 @@ package com.intuit.ddb.conf
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.intellij.execution.Executor
 import com.intellij.execution.configuration.EnvironmentVariablesData
-import com.intellij.execution.configurations.*
+import com.intellij.execution.configurations.* // ktlint-disable no-wildcard-imports
 import com.intellij.execution.process.ColoredProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessTerminatedListener
@@ -12,7 +12,7 @@ import com.intellij.ide.plugins.cl.PluginClassLoader
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.util.getOrCreate
-import com.intuit.ddb.*
+import com.intuit.ddb.* // ktlint-disable no-wildcard-imports
 import org.jdom.Element
 import java.io.File
 import java.net.URLDecoder

@@ -8,7 +8,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference
 import com.intellij.psi.tree.TokenSet
-import name.kropp.intellij.makefile.psi.*
+import name.kropp.intellij.makefile.psi.* // ktlint-disable no-wildcard-imports
 
 class MakefileAnnotator : Annotator {
     private val lineTokenSet = TokenSet.create(MakefileTypes.LINE)

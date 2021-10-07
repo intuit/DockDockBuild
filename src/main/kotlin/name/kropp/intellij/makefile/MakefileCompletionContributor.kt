@@ -1,6 +1,6 @@
 package name.kropp.intellij.makefile
 
-import com.intellij.codeInsight.completion.*
+import com.intellij.codeInsight.completion.* // ktlint-disable no-wildcard-imports
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.util.ProcessingContext

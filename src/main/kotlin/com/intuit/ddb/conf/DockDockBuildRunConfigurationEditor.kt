@@ -17,7 +17,7 @@ import name.kropp.intellij.makefile.MakefileFileChooserDescriptor
 import name.kropp.intellij.makefile.MakefileTargetIcon
 import name.kropp.intellij.makefile.findTargets
 import java.awt.GridLayout
-import javax.swing.*
+import javax.swing.* // ktlint-disable no-wildcard-imports
 import javax.swing.event.DocumentEvent
 
 // This class builds the run conf UI

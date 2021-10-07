@@ -5,7 +5,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.PsiReference
-import name.kropp.intellij.makefile.psi.*
+import name.kropp.intellij.makefile.psi.* // ktlint-disable no-wildcard-imports
 
 class MakefileTargetReference(private val prerequisite: MakefilePrerequisite) : PsiReference {
     override fun getElement() = prerequisite

@@ -1,7 +1,7 @@
 package name.kropp.intellij.makefile
 
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.fileTypes.*
+import com.intellij.openapi.fileTypes.* // ktlint-disable no-wildcard-imports
 import com.intellij.openapi.util.IconLoader
 import javax.swing.Icon
 
