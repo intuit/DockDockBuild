@@ -4,16 +4,21 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 
 class MakefileCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
-  override fun customizeDefaults(commonSettings: CommonCodeStyleSettings,
-                                 indentOptions: CommonCodeStyleSettings.IndentOptions) {
-    super.customizeDefaults(commonSettings, indentOptions.apply {
-      INDENT_SIZE = 4
-      USE_TAB_CHARACTER = true
-    })
-  }
+    override fun customizeDefaults(
+        commonSettings: CommonCodeStyleSettings,
+        indentOptions: CommonCodeStyleSettings.IndentOptions
+    ) {
+        super.customizeDefaults(
+            commonSettings,
+            indentOptions.apply {
+                INDENT_SIZE = 4
+                USE_TAB_CHARACTER = true
+            }
+        )
+    }
 
-  override fun getCodeSample(settingsType: SettingsType): String {
-    return """# Simple Makefile
+    override fun getCodeSample(settingsType: SettingsType): String {
+        return """# Simple Makefile
 include make.mk
 
 all: hello
@@ -28,7 +33,7 @@ ${'\t'}$(GCC) -c qwe \
 else
 ${'\t'}echo "Hello World"
 endif"""
-  }
+    }
 
-  override fun getLanguage() = MakefileLanguage
+    override fun getLanguage() = MakefileLanguage
 }

@@ -8,14 +8,14 @@ import com.intellij.psi.PsiFile
 import name.kropp.intellij.makefile.psi.MakefileRule
 
 class RemoveRuleFix(private val rule: MakefileRule) : BaseIntentionAction() {
-  override fun getText() = "Remove Empty Rule"
-  override fun getFamilyName() = "Remove Empty Rule"
+    override fun getText() = "Remove Empty Rule"
+    override fun getFamilyName() = "Remove Empty Rule"
 
-  override fun isAvailable(project: Project, editor: Editor?, psiFile: PsiFile?) = true
+    override fun isAvailable(project: Project, editor: Editor?, psiFile: PsiFile?) = true
 
-  override fun invoke(project: Project, editor: Editor?, psiFile: PsiFile?) {
-    WriteCommandAction.writeCommandAction(project, psiFile).run<RuntimeException> {
-      rule.delete()
+    override fun invoke(project: Project, editor: Editor?, psiFile: PsiFile?) {
+        WriteCommandAction.writeCommandAction(project, psiFile).run<RuntimeException> {
+            rule.delete()
+        }
     }
-  }
 }

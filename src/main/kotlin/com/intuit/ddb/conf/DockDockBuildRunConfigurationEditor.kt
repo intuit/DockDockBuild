@@ -17,9 +17,8 @@ import name.kropp.intellij.makefile.MakefileFileChooserDescriptor
 import name.kropp.intellij.makefile.MakefileTargetIcon
 import name.kropp.intellij.makefile.findTargets
 import java.awt.GridLayout
-import javax.swing.*
+import javax.swing.* // ktlint-disable no-wildcard-imports
 import javax.swing.event.DocumentEvent
-
 
 // This class builds the run conf UI
 class DockDockBuildRunConfigurationEditor(private val project: Project) : SettingsEditor<DockDockBuildRunConfiguration>() {
@@ -36,9 +35,12 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
     private val makeFilenameField = TextFieldWithBrowseButton()
 
     private val targetCompletionProvider = TextFieldWithAutoCompletion.StringsCompletionProvider(
-            emptyList(), MakefileTargetIcon)
-    private val targetField = TextFieldWithAutoCompletion<String>(project, targetCompletionProvider,
-            true, "")
+        emptyList(), MakefileTargetIcon
+    )
+    private val targetField = TextFieldWithAutoCompletion<String>(
+        project, targetCompletionProvider,
+        true, ""
+    )
     private val envScriptPathField = TextFieldWithBrowseButton()
 
     private val argumentsField = ExpandableTextField()
@@ -47,24 +49,26 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
     // put UI elements in a panel
     private val panel: JPanel by lazy {
         FormBuilder.createFormBuilder()
-                .setAlignLabelOnRight(false)
-                .setHorizontalGap(UIUtil.DEFAULT_HGAP)
-                .setVerticalGap(UIUtil.DEFAULT_VGAP)
-                .addComponent(dockerPanel)
-                .addSeparator()
-                .addLabeledComponent("&Makefile", makeFilenameField)
-                .addLabeledComponent("&Target", targetField)
-                .addLabeledComponent("&Environment script", envScriptPathField)
-                .addSeparator()
-                .addComponent(environmentVarsComponent)
-                .panel
+            .setAlignLabelOnRight(false)
+            .setHorizontalGap(UIUtil.DEFAULT_HGAP)
+            .setVerticalGap(UIUtil.DEFAULT_VGAP)
+            .addComponent(dockerPanel)
+            .addSeparator()
+            .addLabeledComponent("&Makefile", makeFilenameField)
+            .addLabeledComponent("&Target", targetField)
+            .addLabeledComponent("&Environment script", envScriptPathField)
+            .addSeparator()
+            .addComponent(environmentVarsComponent)
+            .panel
     }
 
     // add listeners to handle changes
     init {
 
-        dockerFilenameField.addBrowseFolderListener("Dockerfile", "Dockerfile path", project,
-                DockerfileFileChooserDescriptor())
+        dockerFilenameField.addBrowseFolderListener(
+            "Dockerfile", "Dockerfile path", project,
+            DockerfileFileChooserDescriptor()
+        )
         dockerFilenameField.textField.document.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(event: DocumentEvent) {
                 updateTargetCompletion(dockerFilenameField.text)
@@ -83,22 +87,25 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
             dockerImageField.isEnabled = true
         }
 
-        makeFilenameField.addBrowseFolderListener("Makefile", "Makefile path", project,
-                MakefileFileChooserDescriptor())
+        makeFilenameField.addBrowseFolderListener(
+            "Makefile", "Makefile path", project,
+            MakefileFileChooserDescriptor()
+        )
         makeFilenameField.textField.document.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(event: DocumentEvent) {
                 updateTargetCompletion(makeFilenameField.text)
             }
         })
 
-        envScriptPathField.addBrowseFolderListener("Environment Script", "Environment script path",
-                project, FileChooserDescriptorFactory.createSingleFileDescriptor("sh"))
+        envScriptPathField.addBrowseFolderListener(
+            "Environment Script", "Environment script path",
+            project, FileChooserDescriptorFactory.createSingleFileDescriptor("sh")
+        )
         envScriptPathField.textField.document.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(event: DocumentEvent) {
                 updateTargetCompletion(envScriptPathField.text)
             }
         })
-
     }
 
     fun updateTargetCompletion(filename: String) {
@@ -166,11 +173,11 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
 
         // Add a titled border to the button panel
         radioPanel.border = BorderFactory.createEmptyBorder()
-        radioPanel.border = BorderFactory.createTitledBorder(radioPanel.border,
-                "Select Docker file or image to run")
+        radioPanel.border = BorderFactory.createTitledBorder(
+            radioPanel.border,
+            "Select Docker file or image to run"
+        )
 
         return radioPanel
-
     }
-
 }

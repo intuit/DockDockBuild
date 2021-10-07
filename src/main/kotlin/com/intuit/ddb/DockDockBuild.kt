@@ -4,10 +4,8 @@ import com.intellij.openapi.project.Project
 import org.apache.commons.lang3.SystemUtils
 import java.nio.file.Paths
 
-
 const val PLUGIN_NAME = "DockDockBuild"
 const val PROCESS_TO_RUN = "com.intuit.ddb.CmdProcessBuilder"
-
 
 fun getDefaultCodePath(project: Project): String {
     return project.basePath.toString()
@@ -61,9 +59,7 @@ fun getSetEnvRelPath(project: Project, path: String): String {
     return pathBase.relativize(pathAbsolute).toString()
 }
 
-
 fun getParamsFile(project: Project): String {
     val paramsFile = "/dockDockBuildParams.json"
     return getDefaultCodePath(project) + paramsFile
 }
-

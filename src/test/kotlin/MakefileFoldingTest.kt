@@ -1,11 +1,10 @@
 
 class MakefileFoldingTest : DockDockTestCase() {
-  fun testRule() = doTest()
-  fun testVariable() = doTest()
-  fun testDefine() = doTest()
+    fun testRule() = doTest()
+    fun testVariable() = doTest()
+    fun testDefine() = doTest()
 
+    fun doTest() = myFixture.testFolding("$testDataPath/$basePath/${getTestName(true)}.mk")
 
-  fun doTest() = myFixture.testFolding("$testDataPath/$basePath/${getTestName(true)}.mk")
-
-  override fun getBasePath() = "folding"
+    override fun getBasePath() = "folding"
 }

@@ -24,19 +24,25 @@ class DockDockBuildConfigurable(project: Project) : Configurable {
         // a hack since we don't always have 'project' in DockDockBuildProjectSettings
         settings.settings.codePath = settings.settings.codePath.ifEmpty { getDefaultCodePath(project) }
 
-        dockerPathField.addBrowseFolderListener(PLUGIN_NAME, "Path to Docker executable", project,
-                FileChooserDescriptor(true, false, false, false, false, false))
-        codePathField.addBrowseFolderListener(PLUGIN_NAME, "Path to code root", project,
-                FileChooserDescriptor(false, true, false, false, false, false))
-        mavenCachePathField.addBrowseFolderListener(PLUGIN_NAME, "Path to Maven cache", project,
-                FileChooserDescriptor(false, true, false, false, false, false))
+        dockerPathField.addBrowseFolderListener(
+            PLUGIN_NAME, "Path to Docker executable", project,
+            FileChooserDescriptor(true, false, false, false, false, false)
+        )
+        codePathField.addBrowseFolderListener(
+            PLUGIN_NAME, "Path to code root", project,
+            FileChooserDescriptor(false, true, false, false, false, false)
+        )
+        mavenCachePathField.addBrowseFolderListener(
+            PLUGIN_NAME, "Path to Maven cache", project,
+            FileChooserDescriptor(false, true, false, false, false, false)
+        )
     }
 
     override fun isModified(): Boolean {
         return (settings.settings.dockerPath != dockerPathField.text) ||
-                (settings.settings.codePath != codePathField.text) ||
-                (settings.settings.mavenCachePath != mavenCachePathField.text) ||
-                (settings.settings.advancedDockerSettings != advancedDockerSettingsField.text)
+            (settings.settings.codePath != codePathField.text) ||
+            (settings.settings.mavenCachePath != mavenCachePathField.text) ||
+            (settings.settings.advancedDockerSettings != advancedDockerSettingsField.text)
     }
 
     override fun getDisplayName() = PLUGIN_NAME
@@ -50,19 +56,19 @@ class DockDockBuildConfigurable(project: Project) : Configurable {
 
     override fun createComponent(): JComponent {
         return FormBuilder.createFormBuilder()
-                .setAlignLabelOnRight(false)
-                .setHorizontalGap(UIUtil.DEFAULT_HGAP)
-                .setVerticalGap(UIUtil.DEFAULT_VGAP)
-                .addLabeledComponent("Path to &Docker executable", dockerPathField)
-                .setHorizontalGap(UIUtil.DEFAULT_HGAP)
-                .addLabeledComponent("Path to code root", codePathField)
-                .setHorizontalGap(UIUtil.DEFAULT_HGAP)
-                .addLabeledComponent("Path to Maven cache", mavenCachePathField)
-                .setHorizontalGap(UIUtil.DEFAULT_HGAP)
-                .addLabeledComponent("Advanced docker settings", advancedDockerSettingsField)
-                .addTooltip("Use with caution!")
-                .addComponentFillVertically(Spacer(), 0)
-                .panel
+            .setAlignLabelOnRight(false)
+            .setHorizontalGap(UIUtil.DEFAULT_HGAP)
+            .setVerticalGap(UIUtil.DEFAULT_VGAP)
+            .addLabeledComponent("Path to &Docker executable", dockerPathField)
+            .setHorizontalGap(UIUtil.DEFAULT_HGAP)
+            .addLabeledComponent("Path to code root", codePathField)
+            .setHorizontalGap(UIUtil.DEFAULT_HGAP)
+            .addLabeledComponent("Path to Maven cache", mavenCachePathField)
+            .setHorizontalGap(UIUtil.DEFAULT_HGAP)
+            .addLabeledComponent("Advanced docker settings", advancedDockerSettingsField)
+            .addTooltip("Use with caution!")
+            .addComponentFillVertically(Spacer(), 0)
+            .panel
     }
 
     override fun reset() {

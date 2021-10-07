@@ -5,5 +5,4 @@ class DockDockBuildSettings {
     var codePath = ""
     var mavenCachePath = getDefaultM2Path()
     var advancedDockerSettings = ""
-
 }
