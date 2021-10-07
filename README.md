@@ -94,32 +94,6 @@ There are multiple ways to build your project using DockDockBuild:
 
 1. Select a run configuration from the drop-down list and click on the "play" button. ![select_run_config.png](https://github.com/intuit//DockDockBuild/blob/master/images/select_run_config.png?raw=true)
 2. Go to your Makefile, and click on the "play" button next to the relevant target.
-
-Development
---------------------------------------------
-
-The plugin is built using Gradle and uses [gradle-intellij-plugin][gradle-intellij-plugin] to integrate with IntelliJ Platform.
-
-First, make sure gradle is using java 8, and not any other version.
-
-To build a plugin run
-
-```
-$ ./gradlew buildPlugin
-```
-
-Plugin zip file will be created in `build/distributions`
-
-To build & test the plugin in IDE run `./gradlew runIdea`
-
-### Grammar modifications
-
-The plugin uses [Grammar-Kit][Grammar-Kit] to generate parser and lexer. Please install [Grammar-Kit plugin][Grammar-Kit plugin] and refer to the documentation if you want to modify grammar.
-
-To regenerate a parser, open Makefile.bnf and press Ctrl+Shift+G (Cmd+Shift+G on Mac)
-To regenerate a lexer, open Makefile.flex and press Ctrl+Shift+G (Cmd+Shift+G on Mac)
-
-Please make sure to add test to MakefileParserTest.kt for any parser modifications.
  
 Contribution
 ------------
