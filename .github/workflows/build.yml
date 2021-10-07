@@ -10,10 +10,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
+          java-version: '8'
           distribution: 'adopt'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
@@ -22,7 +22,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build --scan -s
       - name: Test
-        run: ./gradlew jacocoTestReport
+        run: ./gradlew test jacocoTestReport
       - name: CodeCov
         uses: codecov/codecov-action@v1
         with:

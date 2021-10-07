@@ -81,9 +81,10 @@ dependencies {
 
 jacocoTestReport {
     reports {
-        xml.required = false
+        xml.required = true
+        xml.destination = '${buildDir}/reports/report.xml'
         csv.required = false
-        html.outputLocation = layout.buildDirectory.dir('/Users/hgoel/workspace/DockDockBuild/jacocoHtml')
+        html.required = false
     }
 }
 
