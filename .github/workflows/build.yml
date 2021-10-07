@@ -23,5 +23,3 @@ jobs:
         run: ./gradlew test jacocoTestReport
       - name: CodeCov
         uses: codecov/codecov-action@v1
-        with:
-          file: "reports/report.xml"
