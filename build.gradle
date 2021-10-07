@@ -82,7 +82,7 @@ dependencies {
 jacocoTestReport {
     reports {
         xml.required = true
-        xml.destinationFile = '${buildDir}/reports/report.xml'
+        xml.outputLocation = layout.buildDirectory.dir('reports')
         csv.required = false
         html.required = false
     }
