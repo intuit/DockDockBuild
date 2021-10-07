@@ -3,8 +3,6 @@ name: Java CI
 on:
   push:
   pull_request:
-  schedule:
-    - cron: '0 0 * * 0' # weekly
 
 jobs:
   build:
@@ -22,9 +20,7 @@ jobs:
       - name: Lint
         run: ./gradlew ktlintCheck
       - name: Build with Gradle
-        run: ./gradlew build --scan -s
-      - name: Test
-        run: ./gradlew jacocoTestReport
+        run: ./gradlew build --scan -s jacocoTestReport
       - name: CodeCov
         uses: codecov/codecov-action@v1
         with:
