@@ -21,7 +21,7 @@ apply plugin: 'jacoco'
 group 'com.intuit.intellij'
 
 intellij {
-    version '2020.2.1'
+    version '2021.2.2'
     pluginName rootProject.name
     /* set compatibility range to be *from* IntelliJ version
     and not constrict to specific major build */
