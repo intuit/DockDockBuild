@@ -4,7 +4,7 @@ DockDockBuild: Docker Based Makefile Support for IntelliJ-Based IDEs
 DockDockBuild is an open source plugin for IntelliJ that dockerizes your makefile compilation.
 
 ![logo](https://github.com/intuit/DockDockBuild/blob/master/images/logo_banner.png?raw=true)
-[![Build Status](https://travis-ci.com/intuit/DockDockBuild.svg?branch=master)](https://travis-ci.com/intuit/DockDockBuild)
+[![Build](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml/badge.svg)](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/intuit/DockDockBuild/branch/master/graph/badge.svg)](https://codecov.io/gh/intuit/DockDockBuild)
 [![GitHub release](https://img.shields.io/github/release/intuit/DockDockBuild.svg)](https://github.com/intuit/DockDockBuild/releases)
 [![IntelliJ plugin](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
