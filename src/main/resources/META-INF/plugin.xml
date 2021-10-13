@@ -10,7 +10,7 @@
     Fix project settings bug https://github.com/intuit/DockDockBuild/issues/31
   </change-notes>
 
-  <idea-version since-build="211.4961.30"/>
+  <idea-version since-build="202.6948.69"/>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.platform</depends>
