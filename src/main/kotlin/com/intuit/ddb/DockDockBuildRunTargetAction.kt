@@ -21,7 +21,7 @@ class DockDockBuildRunTargetAction(private val target: MakefileTarget) : AnActio
 
     override fun actionPerformed(event: AnActionEvent) {
 
-        val dataContext = SimpleDataContext.getSimpleContext(Location.DATA_KEY, PsiLocation(target), event.dataContext)
+        val dataContext = SimpleDataContext.getSimpleContext(Location.DATA_KEY.name, PsiLocation(target), event.dataContext)
 
         val context = ConfigurationContext.getFromContext(dataContext)
 

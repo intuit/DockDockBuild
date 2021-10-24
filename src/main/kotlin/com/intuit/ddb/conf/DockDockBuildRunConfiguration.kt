@@ -8,10 +8,10 @@ import com.intellij.execution.process.ColoredProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
-import com.intellij.ide.plugins.cl.PluginClassLoader
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.util.getOrCreate
+import com.intellij.util.lang.UrlClassLoader
 import com.intuit.ddb.* // ktlint-disable no-wildcard-imports
 import org.jdom.Element
 import java.io.File
@@ -140,12 +140,12 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         objectMapper.writeValue(File(getParamsFile(project)), cmdParams)
     }
 
-    // iterate over IntelliJ's PluginClassLoader and find DockDockBuild.jar classpath to call CmdProcessBuilder
+    // iterate over IntelliJ's UrlClassLoader and find DockDockBuild.jar classpath to call CmdProcessBuilder
     private fun getClassPath(): String {
         val jarRegex = Regex("DockDockBuild.jar")
         var classpath = ""
 
-        for (cp in (CmdProcessBuilder::class.java.classLoader as PluginClassLoader).urls) {
+        for (cp in (CmdProcessBuilder::class.java.classLoader as UrlClassLoader).urls) {
             if (jarRegex.containsMatchIn(cp.file)) {
                 classpath = cp.path
                 break
