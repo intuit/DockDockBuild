@@ -12,7 +12,7 @@ buildscript {
 }
 
 plugins {
-    id("org.jetbrains.intellij") version "0.7.3"
+    id("org.jetbrains.intellij") version "1.2.0"
 }
 apply plugin: 'kotlin'
 apply plugin: 'java'
@@ -21,11 +21,11 @@ apply plugin: 'jacoco'
 group 'com.intuit.intellij'
 
 intellij {
-    version '2021.2.2'
-    pluginName rootProject.name
+    version = '2021.2.2'
+    pluginName = rootProject.name
     /* set compatibility range to be *from* IntelliJ version
     and not constrict to specific major build */
-    updateSinceUntilBuild false
+    updateSinceUntilBuild = false
     plugins = ['java']
 }
 
@@ -124,4 +124,3 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     classpath = configurations.ktlint
     args "-F", "src/**/*.kt"
 }
-
