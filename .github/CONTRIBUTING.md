@@ -9,7 +9,7 @@ Development
 
 The plugin is built using Gradle and uses [gradle-intellij-plugin][gradle-intellij-plugin] to integrate with IntelliJ Platform.
 
-First, make sure gradle is using java 8, and not any other version.
+First, make sure gradle is using java 11, and not any other version.
 
 ### Directly from IntelliJ
 You can run and debug DockDockBuild directly from the IntelliJ.
