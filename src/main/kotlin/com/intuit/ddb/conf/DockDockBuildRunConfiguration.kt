@@ -8,7 +8,6 @@ import com.intellij.execution.process.ColoredProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.util.getOrCreate
 import com.intellij.util.lang.UrlClassLoader
@@ -114,13 +113,13 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
     private fun handleParams() {
 
         // Plugin (project) configuration
-        val dockerPath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+        val dockerPath = project.getService(DockDockBuildProjectSettings::class.java)
             .settings.dockerPath
-        val codePath = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+        val codePath = project.getService(DockDockBuildProjectSettings::class.java)
             .settings.codePath
-        val m2Path = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+        val m2Path = project.getService(DockDockBuildProjectSettings::class.java)
             .settings.mavenCachePath
-        val advancedDockerSettings = ServiceManager.getService(project, DockDockBuildProjectSettings::class.java)
+        val advancedDockerSettings = project.getService(DockDockBuildProjectSettings::class.java)
             .settings.advancedDockerSettings
 
         // Runtime configurations
