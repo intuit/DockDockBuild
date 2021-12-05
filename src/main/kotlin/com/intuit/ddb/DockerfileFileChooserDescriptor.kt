@@ -18,5 +18,10 @@ class DockerfileFileChooserDescriptor : FileChooserDescriptor(
         else -> file.name.endsWith("") && file.name == "Dockerfile"
     }
 
-    override fun isFileSelectable(file: VirtualFile) = !file.isDirectory && isFileVisible(file, true)
+    override fun isFileSelectable(file: VirtualFile?): Boolean {
+        if (file != null) {
+            return !file.isDirectory && isFileVisible(file, true)
+        }
+        return false
+    }
 }

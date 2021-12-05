@@ -13,4 +13,6 @@ class DockDockBuildRunConfigurationFactory(runConfigurationType: DockDockBuildRu
     )
 
     override fun getSingletonPolicy() = RunConfigurationSingletonPolicy.SINGLE_INSTANCE_ONLY
+
+    override fun getId() = "DockDockBuildRunConfiguration"
 }

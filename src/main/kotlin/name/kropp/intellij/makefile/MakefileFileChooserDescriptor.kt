@@ -15,5 +15,10 @@ class MakefileFileChooserDescriptor : FileChooserDescriptor(true, false, false, 
         else -> file.name.endsWith(".mk") || file.name == "Makefile"
     }
 
-    override fun isFileSelectable(file: VirtualFile) = !file.isDirectory && isFileVisible(file, true)
+    override fun isFileSelectable(file: VirtualFile?): Boolean {
+        if (file != null) {
+            return !file.isDirectory && isFileVisible(file, true)
+        }
+        return false
+    }
 }
