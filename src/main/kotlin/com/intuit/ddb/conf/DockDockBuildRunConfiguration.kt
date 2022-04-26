@@ -150,6 +150,9 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
                 break
             }
         }
+        if (classpath == "") {
+            throw Error("DockDockBuild is not in Java's classLoader")
+        }
         return URLDecoder.decode(classpath, "UTF-8")
     }
 }

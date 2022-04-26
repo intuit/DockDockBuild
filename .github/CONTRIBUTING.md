@@ -53,3 +53,6 @@ Please make sure to add test to MakefileParserTest.kt for any parser modificatio
 The plugin is written in [Kotlin](http://kotlinlang.org/).
 
 [GNU head icon](https://www.gnu.org/graphics/heckert_gnu.html) licensed under CC-BY-SA 2.0
+
+[Grammar-Kit]:https://github.com/jetbrains/grammar-kit
+[Grammar-Kit plugin]:https://plugins.jetbrains.com/plugin/6606-grammar-kit

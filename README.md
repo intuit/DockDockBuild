@@ -1,14 +1,14 @@
 DockDockBuild: Docker Based Makefile Support for IntelliJ-Based IDEs
 ====================================================================
-
+<!-- Plugin description -->
 DockDockBuild is an open source plugin for IntelliJ that dockerizes your makefile compilation.
+<!-- Plugin description end -->
 
 ![logo](https://github.com/intuit/DockDockBuild/blob/master/images/logo_banner.png?raw=true)
-[![Build](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml/badge.svg)](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/13740-dockdockbuild.svg)][IntelliJ DockDockBuild]
+[![Build](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/intuit/DockDockBuild/branch/master/graph/badge.svg)](https://codecov.io/gh/intuit/DockDockBuild)
-[![GitHub release](https://img.shields.io/github/release/intuit/DockDockBuild.svg)](https://github.com/intuit/DockDockBuild/releases)
-[![IntelliJ plugin](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
-
+[![Version](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild.svg)][IntelliJ DockDockBuild]
 
 When compiling a target in a makefile, this plugin builds a docker container and runs the compilation in that container. 
 The container shares the host's code root path by using *Docker's volume mapping*, making the compiled code available and persistent. 
@@ -30,7 +30,7 @@ Prerequisites
   1. Docker - see installation instructions for [Mac][Mac], [Windows][Windows] and [Ubuntu][Ubuntu].
       >Please note that in some cases, it is recommended that Mac and Windows users install [Docker Toolbox][Docker Toolbox] rather than Docker Desktop, as the latter might cause compatibility issues with Hyper-V - read more [here](https://docs.docker.com/docker-for-mac/docker-toolbox/).
   		
-  2. IntelliJ 2020.02 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
+  2. IntelliJ 2021.2 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
   
 Installation
 ------------
@@ -40,8 +40,8 @@ Click on **Install**.
 
 ###### You may be required to restart your IDE following the installation.
 ### From zip
-In your IntelliJ Settings screen, click on **Plugins**. Click on **Settings** and select **Install Plugin From Disk**:
- 
+Just drag-and-drop the file on top of IntelliJ and it will be installed.<br/>
+Alternatively, go to **Plugins** -> **Settings** and select **Install Plugin From Disk**:
 ![Install plugin from zip](https://github.com/intuit/DockDockBuild/blob/master/images/install_from_zip.png?raw=true)
 
 Select the zip file, and then click on **Install**. 
@@ -52,12 +52,12 @@ Select the zip file, and then click on **Install**.
 Configuration
 -------------
 ### Plugin Configuration
-Since DockDockBuild builds a docker container and runs the make command on it, you need to define the paths to your Docker executable, code root and Maven cache, for example:
+This is done automatically, but if you use non default values, you will need to define the paths to your Docker executable, code root and Maven cache, for example:
 
 Docker Desktop for Mac:
 ![plugin_config](https://github.com/intuit/DockDockBuild/blob/master/images/plugin_config.png?raw=true)
 
-Set the **Path to Docker executable** to be the location of the *docker.exe* file on your machine.
+Set the **Path to Docker executable** to be the location of the *docker executable* file on your machine.
 
 Set the **Path to code root** to be the location of your project's source code root folder.
 
@@ -92,8 +92,8 @@ Usage
 -----
 There are multiple ways to build your project using DockDockBuild:
 
-1. Select a run configuration from the drop-down list and click on the "play" button. ![select_run_config.png](https://github.com/intuit//DockDockBuild/blob/master/images/select_run_config.png?raw=true)
-2. Go to your Makefile, and click on the "play" button next to the relevant target.
+1. Select a run configuration from the drop-down list and click on the "play" button. ![select_run_config.png](https://github.com/intuit/DockDockBuild/blob/master/images/select_run_config.png?raw=true)
+2. Go to your Makefile, and click on the "play" button next to the relevant target. ![run_from_file.png](https://github.com/intuit/DockDockBuild/blob/master/images/run_from_file.png?raw=true)
  
 Contribution
 ------------
@@ -104,7 +104,6 @@ We welcome contributions from everyone. Please refer to the documentation [here]
 [Ubuntu]:https://docs.docker.com/install/linux/docker-ee/ubuntu/
 [Docker Toolbox]:https://docs.docker.com/toolbox/overview/
 
+[IntelliJ DockDockBuild]:https://plugins.jetbrains.com/plugin/13740-dockdockbuild
 [intelliJ download]:https://www.jetbrains.com/idea/download
 [gradle-intellij-plugin]:https://github.com/JetBrains/gradle-intellij-plugin
-[Grammar-Kit]:https://github.com/jetbrains/grammar-kit
-[Grammar-Kit plugin]:https://plugins.jetbrains.com/plugin/6606-grammar-kit
