@@ -1,13 +1,21 @@
 DockDockBuild: Docker Based Makefile Support for IntelliJ-Based IDEs
 ====================================================================
-
+<!-- Plugin description -->
 DockDockBuild is an open source plugin for IntelliJ that dockerizes your makefile compilation.
+
+This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+
+To keep everything working, do not remove `<!-- ... -->` sections.
+<!-- Plugin description end -->
 
 ![logo](https://github.com/intuit/DockDockBuild/blob/master/images/logo_banner.png?raw=true)
 [![Build](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml/badge.svg)](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/intuit/DockDockBuild/branch/master/graph/badge.svg)](https://codecov.io/gh/intuit/DockDockBuild)
 [![GitHub release](https://img.shields.io/github/release/intuit/DockDockBuild.svg)](https://github.com/intuit/DockDockBuild/releases)
 [![IntelliJ plugin](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
+![Build](https://github.com/HilaG/DockDockBuild/workflows/Build/badge.svg)
+[![Version](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild.svg)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/13740-dockdockbuild.svg)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
 
 
 When compiling a target in a makefile, this plugin builds a docker container and runs the compilation in that container. 

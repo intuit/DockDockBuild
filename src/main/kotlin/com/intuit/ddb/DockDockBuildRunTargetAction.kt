@@ -23,7 +23,7 @@ class DockDockBuildRunTargetAction(private val target: MakefileTarget) : AnActio
 
         val dataContext = SimpleDataContext.getSimpleContext(Location.DATA_KEY, PsiLocation(target), event.dataContext)
 
-        val context = ConfigurationContext.getFromContext(dataContext, event.place)
+        val context = ConfigurationContext.getFromContext(dataContext)
 
         val producer = DockDockBuildRunConfigurationProducer()
         val configuration = producer.findOrCreateConfigurationFromContext(context)?.configurationSettings ?: return
