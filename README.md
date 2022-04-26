@@ -52,12 +52,12 @@ Select the zip file, and then click on **Install**.
 Configuration
 -------------
 ### Plugin Configuration
-Since DockDockBuild builds a docker container and runs the make command on it, you need to define the paths to your Docker executable, code root and Maven cache, for example:
+This is done automatically, but if you use non default values, you will need to define the paths to your Docker executable, code root and Maven cache, for example:
 
 Docker Desktop for Mac:
 ![plugin_config](https://github.com/intuit/DockDockBuild/blob/master/images/plugin_config.png?raw=true)
 
-Set the **Path to Docker executable** to be the location of the *docker.exe* file on your machine.
+Set the **Path to Docker executable** to be the location of the *docker executable* file on your machine.
 
 Set the **Path to code root** to be the location of your project's source code root folder.
 
@@ -93,7 +93,7 @@ Usage
 There are multiple ways to build your project using DockDockBuild:
 
 1. Select a run configuration from the drop-down list and click on the "play" button. ![select_run_config.png](https://github.com/intuit/DockDockBuild/blob/master/images/select_run_config.png?raw=true)
-2. Go to your Makefile, and click on the "play" button next to the relevant target.
+2. Go to your Makefile, and click on the "play" button next to the relevant target. ![run_from_file.png](https://github.com/intuit/DockDockBuild/blob/master/images/run_from_file.png?raw=true)
  
 Contribution
 ------------
@@ -107,5 +107,3 @@ We welcome contributions from everyone. Please refer to the documentation [here]
 [IntelliJ DockDockBuild]:https://plugins.jetbrains.com/plugin/13740-dockdockbuild
 [intelliJ download]:https://www.jetbrains.com/idea/download
 [gradle-intellij-plugin]:https://github.com/JetBrains/gradle-intellij-plugin
-[Grammar-Kit]:https://github.com/jetbrains/grammar-kit
-[Grammar-Kit plugin]:https://plugins.jetbrains.com/plugin/6606-grammar-kit
