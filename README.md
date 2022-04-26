@@ -30,7 +30,7 @@ Prerequisites
   1. Docker - see installation instructions for [Mac][Mac], [Windows][Windows] and [Ubuntu][Ubuntu].
       >Please note that in some cases, it is recommended that Mac and Windows users install [Docker Toolbox][Docker Toolbox] rather than Docker Desktop, as the latter might cause compatibility issues with Hyper-V - read more [here](https://docs.docker.com/docker-for-mac/docker-toolbox/).
   		
-  2. IntelliJ 2020.02 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
+  2. IntelliJ 2021.2 and above - if you have an older version, download the latest one [here][intelliJ download]. It is recommended to uninstall the old version silently, so that you don't lose your old configuration.
   
 Installation
 ------------
@@ -40,8 +40,8 @@ Click on **Install**.
 
 ###### You may be required to restart your IDE following the installation.
 ### From zip
-In your IntelliJ Settings screen, click on **Plugins**. Click on **Settings** and select **Install Plugin From Disk**:
- 
+Just drag-and-drop the file on top of IntelliJ and it will be installed.<br/>
+Alternatively, go to **Plugins** -> **Settings** and select **Install Plugin From Disk**:
 ![Install plugin from zip](https://github.com/intuit/DockDockBuild/blob/master/images/install_from_zip.png?raw=true)
 
 Select the zip file, and then click on **Install**. 
@@ -92,7 +92,7 @@ Usage
 -----
 There are multiple ways to build your project using DockDockBuild:
 
-1. Select a run configuration from the drop-down list and click on the "play" button. ![select_run_config.png](https://github.com/intuit//DockDockBuild/blob/master/images/select_run_config.png?raw=true)
+1. Select a run configuration from the drop-down list and click on the "play" button. ![select_run_config.png](https://github.com/intuit/DockDockBuild/blob/master/images/select_run_config.png?raw=true)
 2. Go to your Makefile, and click on the "play" button next to the relevant target.
  
 Contribution
