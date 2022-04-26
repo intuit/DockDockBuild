@@ -58,21 +58,9 @@ tasks.named<ProcessResources>("processResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-// abstract class CompileProcessBuilder : JavaCompile() {
-//    @TaskAction
-//    fun compileProcessBuilder() {
-//        source = sourceSets.java.srcDirs
-//        include 'CmdProcessBuilder.java'
-//        classpath = sourceSets.main.
-//    }
-// }
-//
-// // Create a task using the task type
-// tasks.register<CompileProcessBuilder>("Compile")
-
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.2")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.2.2")
     testImplementation("org.hamcrest:hamcrest-all:1.3")
 }
 

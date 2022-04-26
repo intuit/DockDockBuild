@@ -2,21 +2,13 @@ DockDockBuild: Docker Based Makefile Support for IntelliJ-Based IDEs
 ====================================================================
 <!-- Plugin description -->
 DockDockBuild is an open source plugin for IntelliJ that dockerizes your makefile compilation.
-
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
-
-To keep everything working, do not remove `<!-- ... -->` sections.
 <!-- Plugin description end -->
 
 ![logo](https://github.com/intuit/DockDockBuild/blob/master/images/logo_banner.png?raw=true)
-[![Build](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml/badge.svg)](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/13740-dockdockbuild.svg)][IntelliJ DockDockBuild]
+[![Build](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/intuit/DockDockBuild/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/intuit/DockDockBuild/branch/master/graph/badge.svg)](https://codecov.io/gh/intuit/DockDockBuild)
-[![GitHub release](https://img.shields.io/github/release/intuit/DockDockBuild.svg)](https://github.com/intuit/DockDockBuild/releases)
-[![IntelliJ plugin](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
-![Build](https://github.com/HilaG/DockDockBuild/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild.svg)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/13740-dockdockbuild.svg)](https://plugins.jetbrains.com/plugin/13740-dockdockbuild)
-
+[![Version](https://img.shields.io/jetbrains/plugin/v/13740-dockdockbuild.svg)][IntelliJ DockDockBuild]
 
 When compiling a target in a makefile, this plugin builds a docker container and runs the compilation in that container. 
 The container shares the host's code root path by using *Docker's volume mapping*, making the compiled code available and persistent. 
@@ -112,6 +104,7 @@ We welcome contributions from everyone. Please refer to the documentation [here]
 [Ubuntu]:https://docs.docker.com/install/linux/docker-ee/ubuntu/
 [Docker Toolbox]:https://docs.docker.com/toolbox/overview/
 
+[IntelliJ DockDockBuild]:https://plugins.jetbrains.com/plugin/13740-dockdockbuild
 [intelliJ download]:https://www.jetbrains.com/idea/download
 [gradle-intellij-plugin]:https://github.com/JetBrains/gradle-intellij-plugin
 [Grammar-Kit]:https://github.com/jetbrains/grammar-kit
