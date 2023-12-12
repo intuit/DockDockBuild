@@ -14,10 +14,11 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
+//    id("name.kropp.intellij.makefile") version "3.5.1"
     // Jacoco
     id("jacoco")
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
 }
 
 group = properties("pluginGroup")
@@ -33,7 +34,6 @@ intellij {
     pluginName.set(properties("pluginName"))
     version.set(properties("platformVersion"))
     type.set(properties("platformType"))
-
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
 }
@@ -59,6 +59,7 @@ tasks.named<ProcessResources>("processResources") {
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.3")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
+    implementation("name.kropp.intellij.makefile:makefile:3.5.1")
     testImplementation("org.hamcrest:hamcrest-all:1.3")
 }
 
