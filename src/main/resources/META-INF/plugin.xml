@@ -1,18 +1,18 @@
 <idea-plugin>
   <id>com.intuit.intellij.makefile</id>
   <name>DockDockBuild</name>
-  <version>2.2.1</version>
+  <version>2.2.3</version>
   <vendor email="hila_goel@intuit.com" url="https://www.intuit.com/">Intuit</vendor>
 
   <description>Support for running UNIX Makefiles on a Docker container</description>
 
   <change-notes><![CDATA[
     <ul>
-      <li>Support for IntelliJ 2023.1</li>
+      <li>Support for IntelliJ 2023.2</li>
     </ul>
   ]]></change-notes>
 
-  <idea-version since-build="231" until-build="232.*"/>
+  <idea-version since-build="222"/>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.platform</depends>
