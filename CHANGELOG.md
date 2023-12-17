@@ -2,6 +2,12 @@
 
 # DockDockBuild Changelog
 
+## [2.2.1]
+### Fixed
+- getId() Intellij warning
+### Changed
+- Support for IntelliJ 2023.1
+
 ## [2.2.0]
 ### Changed
 - Update Java to v17
