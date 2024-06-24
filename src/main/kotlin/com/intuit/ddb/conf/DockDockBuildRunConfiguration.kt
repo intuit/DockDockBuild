@@ -9,7 +9,6 @@ import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.project.Project
-import com.intellij.util.getOrCreate
 import com.intellij.util.lang.UrlClassLoader
 import com.intuit.ddb.* // ktlint-disable no-wildcard-imports
 import org.jdom.Element
@@ -50,7 +49,7 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
 
     override fun writeExternal(element: Element) {
         super.writeExternal(element)
-        val child = element.getOrCreate(DOCKER_MAKE)
+        val child = element.getOrCreateChild(DOCKER_MAKE)
         child.setAttribute(MAKEFILE_FILEPATH, makefileFilePath)
         child.setAttribute(DOCKER_FILENAME, dockerfileDir)
         child.setAttribute(DOCKER_IMAGE, dockerImageUrl)
