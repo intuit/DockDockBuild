@@ -9,7 +9,7 @@ Development
 
 The plugin is built using Gradle and uses [gradle-intellij-plugin][gradle-intellij-plugin] to integrate with IntelliJ Platform.
 
-First, make sure gradle is using java 17, and not any other version.
+First, make sure gradle is using java 21, and not any other version like [this](https://stackoverflow.com/questions/67079327/how-can-i-fix-unsupported-class-file-major-version-60-in-intellij-idea)
 
 ### Directly from IntelliJ
 You can run and debug DockDockBuild directly from the IntelliJ.
@@ -56,3 +56,4 @@ The plugin is written in [Kotlin](http://kotlinlang.org/).
 
 [Grammar-Kit]:https://github.com/jetbrains/grammar-kit
 [Grammar-Kit plugin]:https://plugins.jetbrains.com/plugin/6606-grammar-kit
+[gradle-intellij-plugin]:https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html

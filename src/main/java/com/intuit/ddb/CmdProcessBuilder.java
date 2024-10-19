@@ -49,7 +49,7 @@ public class CmdProcessBuilder {
          */
         Parameters p = Parameters.readParams(args[0]);
 
-        // if using an image, the tag will be the the tag given in dockerImgUrl, else (for build) use default
+        // if using an image, the tag will be the tag given in dockerImgUrl, else (for build) use default
         String imageTag = p.isImage == Boolean.TRUE ? p.dockerImgUrl : DEFAULT_TAG;
         String codeVol = p.codePath + ":" + CODE_PATH_DOCKER;
         String mavenVol = p.m2Path + ":" + M2_PATH_DOCKER;

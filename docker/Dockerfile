@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk
+FROM openjdk:21-jdk
 
 # install general tools
 RUN apt-get update && apt-get install --yes --no-install-recommends && apt-get install -y wget && apt-get install -y vim && \
@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends && apt-get i
 
 # install gradle
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 7.5
+ENV GRADLE_VERSION 8.10.1
 ARG GRADLE_DOWNLOAD_SHA256=cb87f222c5585bd46838ad4db78463a5c5f3d336e5e2b98dc7c0c586527351c2
 RUN set -o errexit -o nounset && \
    echo "Downloading Gradle" && \

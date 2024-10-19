@@ -2,6 +2,17 @@
 
 # DockDockBuild Changelog
 
+## [2.2.6]
+### Changed
+- Update Java to v21
+- Update Gradle to v8.10.1
+- Update IntelliJ Gradle plugin to 2.X
+- More dependencies upgrade
+
+### Added
+- Support for IntelliJ 2024.2
+
+
 ## [2.2.1]
 ### Fixed
 - getId() Intellij warning
