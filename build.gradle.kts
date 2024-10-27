@@ -166,9 +166,6 @@ tasks {
         // Run ktlint before creating the JAR
         dependsOn(ktlintCheck)
         archiveFileName.set("DockDockBuild.jar")
-        doFirst {
-            println("Custom JAR name being applied: ${archiveFileName.get()}")
-        }
 
         manifest {
             attributes("Main-Class:com.intuit.ddb")
