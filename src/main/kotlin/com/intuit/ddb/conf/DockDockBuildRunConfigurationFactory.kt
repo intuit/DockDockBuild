@@ -7,10 +7,12 @@ import com.intuit.ddb.PLUGIN_NAME
 
 class DockDockBuildRunConfigurationFactory(runConfigurationType: DockDockBuildRunConfigurationType) :
     ConfigurationFactory(runConfigurationType) {
-
-    override fun createTemplateConfiguration(project: Project) = DockDockBuildRunConfiguration(
-        project, this, PLUGIN_NAME
-    )
+    override fun createTemplateConfiguration(project: Project) =
+        DockDockBuildRunConfiguration(
+            project,
+            this,
+            PLUGIN_NAME,
+        )
 
     override fun getSingletonPolicy() = RunConfigurationSingletonPolicy.SINGLE_INSTANCE_ONLY
 

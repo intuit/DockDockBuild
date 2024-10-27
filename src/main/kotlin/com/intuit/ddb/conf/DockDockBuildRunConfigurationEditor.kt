@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.intuit.ddb.conf
 
 import com.intellij.execution.configuration.EnvironmentVariablesComponent
@@ -17,12 +19,11 @@ import name.kropp.intellij.makefile.MakefileFileChooserDescriptor
 import name.kropp.intellij.makefile.MakefileTargetIcon
 import name.kropp.intellij.makefile.findTargets
 import java.awt.GridLayout
-import javax.swing.* // ktlint-disable no-wildcard-imports
+import javax.swing.*
 import javax.swing.event.DocumentEvent
 
 // This class builds the run conf UI
 class DockDockBuildRunConfigurationEditor(private val project: Project) : SettingsEditor<DockDockBuildRunConfiguration>() {
-
     // create UI elements
     // Docker file\ image buttons
     private val dockerFilenameField = TextFieldWithBrowseButton()
@@ -34,13 +35,18 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
 
     private val makeFilenameField = TextFieldWithBrowseButton()
 
-    private val targetCompletionProvider = TextFieldWithAutoCompletion.StringsCompletionProvider(
-        emptyList(), MakefileTargetIcon
-    )
-    private val targetField = TextFieldWithAutoCompletion<String>(
-        project, targetCompletionProvider,
-        true, ""
-    )
+    private val targetCompletionProvider =
+        TextFieldWithAutoCompletion.StringsCompletionProvider(
+            emptyList(),
+            MakefileTargetIcon,
+        )
+    private val targetField =
+        TextFieldWithAutoCompletion<String>(
+            project,
+            targetCompletionProvider,
+            true,
+            "",
+        )
     private val envScriptPathField = TextFieldWithBrowseButton()
 
     private val argumentsField = ExpandableTextField()
@@ -66,14 +72,18 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
     init {
 
         dockerFilenameField.addBrowseFolderListener(
-            "Dockerfile", "Dockerfile path", project,
-            DockerfileFileChooserDescriptor()
+            "Dockerfile",
+            "Dockerfile path",
+            project,
+            DockerfileFileChooserDescriptor(),
         )
-        dockerFilenameField.textField.document.addDocumentListener(object : DocumentAdapter() {
-            override fun textChanged(event: DocumentEvent) {
-                updateTargetCompletion(dockerFilenameField.text)
-            }
-        })
+        dockerFilenameField.textField.document.addDocumentListener(
+            object : DocumentAdapter() {
+                override fun textChanged(event: DocumentEvent) {
+                    updateTargetCompletion(dockerFilenameField.text)
+                }
+            },
+        )
 
         isDockerfileBox.addActionListener {
             dockerFilenameField.isEnabled = true
@@ -88,24 +98,32 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
         }
 
         makeFilenameField.addBrowseFolderListener(
-            "Makefile", "Makefile path", project,
-            MakefileFileChooserDescriptor()
+            "Makefile",
+            "Makefile path",
+            project,
+            MakefileFileChooserDescriptor(),
         )
-        makeFilenameField.textField.document.addDocumentListener(object : DocumentAdapter() {
-            override fun textChanged(event: DocumentEvent) {
-                updateTargetCompletion(makeFilenameField.text)
-            }
-        })
+        makeFilenameField.textField.document.addDocumentListener(
+            object : DocumentAdapter() {
+                override fun textChanged(event: DocumentEvent) {
+                    updateTargetCompletion(makeFilenameField.text)
+                }
+            },
+        )
 
         envScriptPathField.addBrowseFolderListener(
-            "Environment Script", "Environment script path",
-            project, FileChooserDescriptorFactory.createSingleFileDescriptor("sh")
+            "Environment Script",
+            "Environment script path",
+            project,
+            FileChooserDescriptorFactory.createSingleFileDescriptor("sh"),
         )
-        envScriptPathField.textField.document.addDocumentListener(object : DocumentAdapter() {
-            override fun textChanged(event: DocumentEvent) {
-                updateTargetCompletion(envScriptPathField.text)
-            }
-        })
+        envScriptPathField.textField.document.addDocumentListener(
+            object : DocumentAdapter() {
+                override fun textChanged(event: DocumentEvent) {
+                    updateTargetCompletion(envScriptPathField.text)
+                }
+            },
+        )
     }
 
     fun updateTargetCompletion(filename: String) {
@@ -154,7 +172,6 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
     }
 
     private fun dockerPanel(): JPanel {
-
         // put radio buttons in the same group
         isImageGroup.add(isDockerImageBox)
         isImageGroup.add(isDockerfileBox)
@@ -173,10 +190,11 @@ class DockDockBuildRunConfigurationEditor(private val project: Project) : Settin
 
         // Add a titled border to the button panel
         radioPanel.border = BorderFactory.createEmptyBorder()
-        radioPanel.border = BorderFactory.createTitledBorder(
-            radioPanel.border,
-            "Select Docker file or image to run"
-        )
+        radioPanel.border =
+            BorderFactory.createTitledBorder(
+                radioPanel.border,
+                "Select Docker file or image to run",
+            )
 
         return radioPanel
     }

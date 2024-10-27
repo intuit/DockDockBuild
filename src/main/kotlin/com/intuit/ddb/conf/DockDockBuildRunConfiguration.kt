@@ -1,16 +1,18 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.intuit.ddb.conf
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.intellij.execution.Executor
 import com.intellij.execution.configuration.EnvironmentVariablesData
-import com.intellij.execution.configurations.* // ktlint-disable no-wildcard-imports
+import com.intellij.execution.configurations.*
 import com.intellij.execution.process.ColoredProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.project.Project
 import com.intellij.util.lang.UrlClassLoader
-import com.intuit.ddb.* // ktlint-disable no-wildcard-imports
+import com.intuit.ddb.*
 import org.jdom.Element
 import java.io.File
 import java.net.URLDecoder
@@ -18,7 +20,6 @@ import java.net.URLDecoder
 // This class handles the *run* configurations of the plugin
 open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDockBuildRunConfigurationFactory, name: String) :
     LocatableConfigurationBase<RunProfileState>(project, factoryDocker, name) {
-
     var makefileFilePath = ""
     var dockerfileDir = ""
     var dockerImageUrl = ""
@@ -77,8 +78,10 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         }
     }
 
-    override fun getState(executor: Executor, executionEnvironment: ExecutionEnvironment): RunProfileState? {
-
+    override fun getState(
+        executor: Executor,
+        executionEnvironment: ExecutionEnvironment,
+    ): RunProfileState? {
         handleParams()
 
         val decodedCP = getClassPath()
@@ -86,20 +89,23 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
 
         return object : CommandLineState(executionEnvironment) {
             override fun startProcess(): ProcessHandler {
-
                 // java -cp <classPath> com.intuit.ddb.CmdProcessBuilder <parameters for Java class>
                 val params = ParametersList()
                 params.addAll("-cp", decodedCP, PROCESS_TO_RUN, getParamsFile(project))
 
-                val cmd = GeneralCommandLine()
-                    .withExePath("java")
-                    .withWorkDirectory(userDir)
-                    .withEnvironment(environmentVariables.envs)
-                    .withParentEnvironmentType(
-                        if (environmentVariables.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE
-                        else GeneralCommandLine.ParentEnvironmentType.NONE
-                    )
-                    .withParameters(params.list)
+                val cmd =
+                    GeneralCommandLine()
+                        .withExePath("java")
+                        .withWorkDirectory(userDir)
+                        .withEnvironment(environmentVariables.envs)
+                        .withParentEnvironmentType(
+                            if (environmentVariables.isPassParentEnvs) {
+                                GeneralCommandLine.ParentEnvironmentType.CONSOLE
+                            } else {
+                                GeneralCommandLine.ParentEnvironmentType.NONE
+                            },
+                        )
+                        .withParameters(params.list)
 
                 val processHandler = ColoredProcessHandler(cmd)
                 ProcessTerminatedListener.attach(processHandler)
@@ -110,16 +116,19 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
     }
 
     private fun handleParams() {
-
         // Plugin (project) configuration
-        val dockerPath = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.dockerPath
-        val codePath = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.codePath
-        val m2Path = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.mavenCachePath
-        val advancedDockerSettings = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.advancedDockerSettings
+        val dockerPath =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.dockerPath
+        val codePath =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.codePath
+        val m2Path =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.mavenCachePath
+        val advancedDockerSettings =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.advancedDockerSettings
 
         // Runtime configurations
         // on host
@@ -131,10 +140,11 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
 
         // create Parameters obj and write to file to be used in CmdProcessBuilder
         val objectMapper = ObjectMapper()
-        val cmdParams = Parameters(
-            dockerPath, dockerfileDir, dockerImageUrl, isDockerImage.toBoolean(),
-            makefilePath, makefileFileName, target, codePath, m2Path, envScriptPath, advancedDockerSettings
-        )
+        val cmdParams =
+            Parameters(
+                dockerPath, dockerfileDir, dockerImageUrl, isDockerImage.toBoolean(),
+                makefilePath, makefileFileName, target, codePath, m2Path, envScriptPath, advancedDockerSettings,
+            )
         objectMapper.writeValue(File(getParamsFile(project)), cmdParams)
     }
 

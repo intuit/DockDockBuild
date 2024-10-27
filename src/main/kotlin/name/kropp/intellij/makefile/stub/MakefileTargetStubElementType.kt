@@ -12,20 +12,33 @@ import name.kropp.intellij.makefile.psi.impl.MakefileTargetImpl
 
 object MakefileTargetStubElementType : IStubElementType<MakefileTargetStubElement, MakefileTarget>("TARGET", MakefileLanguage) {
     @JvmStatic
-    fun getInstance(debugName: String) = MakefileTargetStubElementType
+    fun getInstance() = MakefileTargetStubElementType
 
     override fun getExternalId() = "Makefile"
 
-    override fun createStub(psi: MakefileTarget, parent: StubElement<*>?) = MakefileTargetStubElementImpl(parent, psi.name)
+    override fun createStub(
+        psi: MakefileTarget,
+        parent: StubElement<*>?,
+    ) = MakefileTargetStubElementImpl(parent, psi.name)
+
     override fun createPsi(stub: MakefileTargetStubElement) = MakefileTargetImpl(stub, stub.stubType)
 
-    override fun indexStub(stub: MakefileTargetStubElement, sink: IndexSink) {
+    override fun indexStub(
+        stub: MakefileTargetStubElement,
+        sink: IndexSink,
+    ) {
         sink.occurrence(TARGET_INDEX_KEY, stub.name!!)
     }
 
-    override fun serialize(e: MakefileTargetStubElement, outputStream: StubOutputStream) {
+    override fun serialize(
+        e: MakefileTargetStubElement,
+        outputStream: StubOutputStream,
+    ) {
         outputStream.writeName(e.name)
     }
-    override fun deserialize(inputStream: StubInputStream, parent: StubElement<*>?) =
-        MakefileTargetStubElementImpl(parent, inputStream.readName()?.string)
+
+    override fun deserialize(
+        inputStream: StubInputStream,
+        parent: StubElement<*>?,
+    ) = MakefileTargetStubElementImpl(parent, inputStream.readName()?.string)
 }

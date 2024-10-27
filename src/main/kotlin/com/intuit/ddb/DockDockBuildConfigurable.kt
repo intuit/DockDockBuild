@@ -13,7 +13,6 @@ import javax.swing.JTextField
 
 // Docker Make project config
 class DockDockBuildConfigurable(project: Project) : Configurable {
-
     private val settings = project.getService(DockDockBuildProjectSettings::class.java)
     private val dockerPathField = TextFieldWithBrowseButton()
     private val codePathField = TextFieldWithBrowseButton()
@@ -25,16 +24,22 @@ class DockDockBuildConfigurable(project: Project) : Configurable {
         settings.settings.codePath = settings.settings.codePath.ifEmpty { getDefaultCodePath(project) }
 
         dockerPathField.addBrowseFolderListener(
-            PLUGIN_NAME, "Path to Docker executable", project,
-            FileChooserDescriptor(true, false, false, false, false, false)
+            PLUGIN_NAME,
+            "Path to Docker executable",
+            project,
+            FileChooserDescriptor(true, false, false, false, false, false),
         )
         codePathField.addBrowseFolderListener(
-            PLUGIN_NAME, "Path to code root", project,
-            FileChooserDescriptor(false, true, false, false, false, false)
+            PLUGIN_NAME,
+            "Path to code root",
+            project,
+            FileChooserDescriptor(false, true, false, false, false, false),
         )
         mavenCachePathField.addBrowseFolderListener(
-            PLUGIN_NAME, "Path to Maven cache", project,
-            FileChooserDescriptor(false, true, false, false, false, false)
+            PLUGIN_NAME,
+            "Path to Maven cache",
+            project,
+            FileChooserDescriptor(false, true, false, false, false, false),
         )
     }
 

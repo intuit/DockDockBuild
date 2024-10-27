@@ -1,4 +1,5 @@
 
+
 class MakefileTargetRenameTest : DockDockTestCase() {
     fun testSimple() = doTest("qwerty")
 

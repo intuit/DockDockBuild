@@ -5,7 +5,9 @@ import name.kropp.intellij.makefile.MakefileIcon
 
 object DockDockBuildRunConfigurationType : ConfigurationType {
     override fun getDisplayName() = "DockDockBuild"
+
     override fun getIcon() = MakefileIcon
+
     override fun getConfigurationTypeDescription() = "DockDockBuild"
 
     override fun getId() = "DockDockBuildRunConfiguration"

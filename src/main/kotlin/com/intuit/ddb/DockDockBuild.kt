@@ -12,7 +12,6 @@ fun getDefaultCodePath(project: Project): String {
 }
 
 fun getDefaultDockerPath(): String {
-
     when {
         SystemUtils.IS_OS_WINDOWS -> return "docker"
         SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_UNIX -> return "/usr/local/bin/docker"
@@ -34,7 +33,10 @@ fun getMakefileFilename(makefileFilename: String): String {
 }
 
 // get relative path for makefile to cd into in the Docker container
-fun getMakefileDir(project: Project, makefileFilename: String): String {
+fun getMakefileDir(
+    project: Project,
+    makefileFilename: String,
+): String {
     val pathAbsolute = Paths.get(makefileFilename)
     val pathBase = Paths.get(getBasePath(project))
     val pathRelative = pathBase.relativize(pathAbsolute)
@@ -52,7 +54,10 @@ fun getDefaultDockerfileDir(makefileFilePath: String): String {
 }
 
 // get Docker container set_env.sh path
-fun getSetEnvRelPath(project: Project, path: String): String {
+fun getSetEnvRelPath(
+    project: Project,
+    path: String,
+): String {
     val pathAbsolute = Paths.get(path)
     val pathBase = Paths.get(getBasePath(project))
 
