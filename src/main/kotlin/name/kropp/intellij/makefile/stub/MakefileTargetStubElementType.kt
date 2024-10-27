@@ -12,7 +12,8 @@ import name.kropp.intellij.makefile.psi.impl.MakefileTargetImpl
 
 object MakefileTargetStubElementType : IStubElementType<MakefileTargetStubElement, MakefileTarget>("TARGET", MakefileLanguage) {
     @JvmStatic
-    fun getInstance() = MakefileTargetStubElementType
+    @Suppress("UNUSED_PARAMETER")
+    fun getInstance(debugName: String) = MakefileTargetStubElementType
 
     override fun getExternalId() = "Makefile"
 
