@@ -19,7 +19,7 @@ version = providers.gradleProperty("pluginVersion").get()
 
 // Set the JVM language level used to build the project.
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 // Configure project's dependencies
@@ -34,7 +34,6 @@ repositories {
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
-    testImplementation(libs.junit)
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
@@ -55,6 +54,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.18.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
     testImplementation("org.hamcrest:hamcrest-all:1.3")
+    testImplementation(libs.junit)
+    testImplementation("org.opentest4j:opentest4j:1.2.0")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
