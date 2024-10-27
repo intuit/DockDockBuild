@@ -2,7 +2,7 @@
 
 # DockDockBuild Changelog
 
-## [2.2.6]
+## [2.3.0]
 ### Changed
 - Update Java to v21
 - Update Gradle to v8.10.1

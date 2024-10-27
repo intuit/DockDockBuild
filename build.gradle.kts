@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
+    // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
+    id("org.jlleitschuh.gradle.ktlint-idea") version "11.6.1"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -48,6 +50,10 @@ dependencies {
         zipSigner()
         testFramework(TestFrameworkType.Platform)
     }
+
+    implementation("com.fasterxml.jackson.core:jackson-core:2.18.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
+    testImplementation("org.hamcrest:hamcrest-all:1.3")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
@@ -83,7 +89,7 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = providers.gradleProperty("pluginUntilBuild")
+//            untilBuild = providers.gradleProperty("pluginUntilBuild")
         }
     }
 
@@ -125,9 +131,52 @@ kover {
     }
 }
 
+tasks.named<ProcessResources>("processResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 tasks {
+
     wrapper {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
+    }
+
+
+    kotlin {
+        sourceSets {
+            map { it.kotlin.srcDir("src/main/kotlin") }
+        }
+    }
+
+    java {
+        sourceSets {
+            map {
+                it.java.srcDirs("src/main/java", "gen")
+                it.resources.srcDirs("src/main/resources")
+            }
+        }
+    }
+
+    composedJar {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+        // Run ktlint before creating the JAR
+//        dependsOn(ktlintCheck)
+        archiveFileName.set("DockDockBuild.jar")
+        doFirst {
+            println("Custom JAR name being applied: ${archiveFileName.get()}")
+        }
+
+        manifest {
+            attributes("Main-Class:com.intuit.ddb")
+        }
+
+        from(sourceSets.main.get().output)
+
+        dependsOn(configurations.runtimeClasspath)
+        from({
+            configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+        })
     }
 
     publishPlugin {
