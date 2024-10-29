@@ -16,6 +16,7 @@
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.java</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <fileType name="Makefile" implementationClass="name.kropp.intellij.makefile.MakefileFileType"
