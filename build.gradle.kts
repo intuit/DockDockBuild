@@ -51,8 +51,8 @@ dependencies {
         testFramework(TestFrameworkType.Platform)
     }
 
-    implementation("com.fasterxml.jackson.core:jackson-core:2.18.0")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.13.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
     testImplementation("org.hamcrest:hamcrest-all:1.3")
     testImplementation(libs.junit)
     testImplementation("org.opentest4j:opentest4j:1.2.0")
