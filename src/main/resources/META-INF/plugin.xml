@@ -26,6 +26,7 @@
     <configurationType implementation="com.intuit.ddb.conf.DockDockBuildRunConfigurationType"/>
     <projectService serviceImplementation="com.intuit.ddb.conf.DockDockBuildProjectSettings"/>
     <projectConfigurable groupId="build.tools" groupWeight="110" id="reference.settingsdialog.project.make"
+                         displayName="DockDockBuild"
                          instance="com.intuit.ddb.DockDockBuildConfigurable"/>
     <runLineMarkerContributor language="Makefile" implementationClass="name.kropp.intellij.makefile.MakefileTargetRunLineMarkerContributor"/>
     <runConfigurationProducer implementation="com.intuit.ddb.conf.DockDockBuildRunConfigurationProducer"/>
