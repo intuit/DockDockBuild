@@ -2,7 +2,7 @@
 
 # DockDockBuild Changelog
 
-## [2.3.0]
+## [2.4.0]
 ### Added
 - Unit tests and UI tests (Remote Robot)
 - `checkConfiguration()` validates required fields before launch
