@@ -6,14 +6,14 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 class MakefileCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
     override fun customizeDefaults(
         commonSettings: CommonCodeStyleSettings,
-        indentOptions: CommonCodeStyleSettings.IndentOptions
+        indentOptions: CommonCodeStyleSettings.IndentOptions,
     ) {
         super.customizeDefaults(
             commonSettings,
             indentOptions.apply {
                 INDENT_SIZE = 4
                 USE_TAB_CHARACTER = true
-            }
+            },
         )
     }
 

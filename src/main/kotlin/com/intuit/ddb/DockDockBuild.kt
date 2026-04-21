@@ -2,9 +2,11 @@ package com.intuit.ddb
 
 import com.intellij.openapi.project.Project
 import org.apache.commons.lang3.SystemUtils
+import java.io.File
 import java.nio.file.Paths
 
 const val PLUGIN_NAME = "DockDockBuild"
+const val PLUGIN_ID = "com.intuit.intellij.makefile"
 const val PROCESS_TO_RUN = "com.intuit.ddb.CmdProcessBuilder"
 
 fun getDefaultCodePath(project: Project): String {
@@ -12,12 +14,13 @@ fun getDefaultCodePath(project: Project): String {
 }
 
 fun getDefaultDockerPath(): String {
+    if (SystemUtils.IS_OS_WINDOWS) return "docker"
 
-    when {
-        SystemUtils.IS_OS_WINDOWS -> return "docker"
-        SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_UNIX -> return "/usr/local/bin/docker"
-    }
-    return ""
+    // Search common locations so this works with Docker Desktop, Rancher, colima, etc.
+    val rancherPath = "${System.getProperty("user.home")}/.rd/bin/docker"
+    val searchPaths =
+        listOf("/usr/local/bin/docker", rancherPath, "/usr/bin/docker", "/opt/homebrew/bin/docker")
+    return searchPaths.firstOrNull { File(it).exists() } ?: "docker"
 }
 
 fun getDefaultM2Path(): String {
@@ -34,7 +37,10 @@ fun getMakefileFilename(makefileFilename: String): String {
 }
 
 // get relative path for makefile to cd into in the Docker container
-fun getMakefileDir(project: Project, makefileFilename: String): String {
+fun getMakefileDir(
+    project: Project,
+    makefileFilename: String,
+): String {
     val pathAbsolute = Paths.get(makefileFilename)
     val pathBase = Paths.get(getBasePath(project))
     val pathRelative = pathBase.relativize(pathAbsolute)
@@ -52,14 +58,12 @@ fun getDefaultDockerfileDir(makefileFilePath: String): String {
 }
 
 // get Docker container set_env.sh path
-fun getSetEnvRelPath(project: Project, path: String): String {
+fun getSetEnvRelPath(
+    project: Project,
+    path: String,
+): String {
     val pathAbsolute = Paths.get(path)
     val pathBase = Paths.get(getBasePath(project))
 
     return pathBase.relativize(pathAbsolute).toString()
-}
-
-fun getParamsFile(project: Project): String {
-    val paramsFile = "/dockDockBuildParams.json"
-    return getDefaultCodePath(project) + paramsFile
 }

@@ -13,18 +13,27 @@ import name.kropp.intellij.makefile.psi.MakefileRule
 import name.kropp.intellij.makefile.psi.MakefileVariableAssignment
 
 class MakefileFoldingBuilder : FoldingBuilderEx(), DumbAware {
-    override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean) =
-        PsiTreeUtil.findChildrenOfAnyType(root, MakefileRule::class.java, MakefileVariableAssignment::class.java, MakefileDefine::class.java)
-            .mapNotNull {
-                when (it) {
-                    is MakefileRule -> MakefileRuleFoldingDescriptor(it)
-                    is MakefileVariableAssignment -> MakefileVariableFoldingDescriptor(it)
-                    is MakefileDefine -> MakefileDefineFoldingDescriptor(it)
-                    else -> null
-                }
-            }.toTypedArray()
+    override fun buildFoldRegions(
+        root: PsiElement,
+        document: Document,
+        quick: Boolean,
+    ) = PsiTreeUtil.findChildrenOfAnyType(
+        root,
+        MakefileRule::class.java,
+        MakefileVariableAssignment::class.java,
+        MakefileDefine::class.java,
+    )
+        .mapNotNull {
+            when (it) {
+                is MakefileRule -> MakefileRuleFoldingDescriptor(it)
+                is MakefileVariableAssignment -> MakefileVariableFoldingDescriptor(it)
+                is MakefileDefine -> MakefileDefineFoldingDescriptor(it)
+                else -> null
+            }
+        }.toTypedArray()
 
     override fun getPlaceholderText(node: ASTNode) = "..."
+
     override fun isCollapsedByDefault(node: ASTNode) = node.psi is MakefileDefine
 
     companion object {
@@ -38,15 +47,27 @@ class MakefileFoldingBuilder : FoldingBuilderEx(), DumbAware {
             }?.trim() ?: ""
         }
 
-        fun PsiElement.trimmedTextRange() = TextRange.create(textRange.startOffset, textRange.startOffset + text.indexOfLast { !it.isWhitespace() } + 1)
+        fun PsiElement.trimmedTextRange() =
+            TextRange.create(
+                textRange.startOffset,
+                textRange.startOffset +
+                    text.indexOfLast {
+                        !it.isWhitespace()
+                    } + 1,
+            )
     }
 
     class MakefileRuleFoldingDescriptor(private val rule: MakefileRule) : FoldingDescriptor(rule, rule.trimmedTextRange()) {
         override fun getPlaceholderText() = rule.targetLine.targets.text + ":"
     }
-    class MakefileVariableFoldingDescriptor(private val variable: MakefileVariableAssignment) : FoldingDescriptor(variable, variable.trimmedTextRange()) {
+
+    class MakefileVariableFoldingDescriptor(private val variable: MakefileVariableAssignment) : FoldingDescriptor(
+        variable,
+        variable.trimmedTextRange(),
+    ) {
         override fun getPlaceholderText() = "${variable.variable.text}${variable.assignment?.text ?: "="}${cutValue(variable.value)}"
     }
+
     class MakefileDefineFoldingDescriptor(private val define: MakefileDefine) : FoldingDescriptor(define, define.trimmedTextRange()) {
         override fun getPlaceholderText() = "${define.variable?.text}${define.assignment?.text ?: "="}${cutValue(define.value)}"
     }

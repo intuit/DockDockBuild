@@ -11,7 +11,6 @@ import name.kropp.intellij.makefile.psi.MakefileTarget
 import java.io.File
 
 class DockDockBuildRunConfigurationProducer : LazyRunConfigurationProducer<DockDockBuildRunConfiguration>() {
-
     override fun getConfigurationFactory(): ConfigurationFactory {
         return DockDockBuildRunConfigurationFactory(DockDockBuildRunConfigurationType)
     }
@@ -20,9 +19,8 @@ class DockDockBuildRunConfigurationProducer : LazyRunConfigurationProducer<DockD
     override fun setupConfigurationFromContext(
         configuration: DockDockBuildRunConfiguration,
         context: ConfigurationContext,
-        sourceElement: Ref<PsiElement>
+        sourceElement: Ref<PsiElement>,
     ): Boolean {
-
         if (context.psiLocation?.containingFile !is MakefileFile) {
             return false
         }
@@ -42,9 +40,8 @@ class DockDockBuildRunConfigurationProducer : LazyRunConfigurationProducer<DockD
 
     override fun isConfigurationFromContext(
         configuration: DockDockBuildRunConfiguration,
-        context: ConfigurationContext
+        context: ConfigurationContext,
     ): Boolean {
-
         return configuration.makefileFilePath == context.location?.virtualFile?.path &&
             configuration.target == findTarget(context)?.name &&
             configuration.dockerfileDir == getDefaultDockerfileDir(configuration.makefileFilePath)

@@ -11,11 +11,20 @@ import name.kropp.intellij.makefile.psi.MakefileElementFactory
 
 class CreateRuleFix(private val prerequisite: PsiElement) : BaseIntentionAction() {
     override fun getText() = "Create Rule"
+
     override fun getFamilyName() = "Create Rule"
 
-    override fun isAvailable(project: Project, editor: Editor?, psiFile: PsiFile?) = true
+    override fun isAvailable(
+        project: Project,
+        editor: Editor?,
+        psiFile: PsiFile?,
+    ) = true
 
-    override fun invoke(project: Project, editor: Editor?, psiFile: PsiFile?) {
+    override fun invoke(
+        project: Project,
+        editor: Editor?,
+        psiFile: PsiFile?,
+    ) {
         WriteCommandAction.writeCommandAction(project, psiFile).run<RuntimeException> {
             val file = psiFile as MakefileFile
             val rule = MakefileElementFactory.createRule(project, prerequisite.text)

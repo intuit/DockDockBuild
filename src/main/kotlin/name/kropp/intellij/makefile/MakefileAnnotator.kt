@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package name.kropp.intellij.makefile
 
 import com.intellij.codeInspection.ProblemHighlightType
@@ -8,12 +10,15 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference
 import com.intellij.psi.tree.TokenSet
-import name.kropp.intellij.makefile.psi.* // ktlint-disable no-wildcard-imports
+import name.kropp.intellij.makefile.psi.*
 
 class MakefileAnnotator : Annotator {
     private val lineTokenSet = TokenSet.create(MakefileTypes.LINE)
 
-    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(
+        element: PsiElement,
+        holder: AnnotationHolder,
+    ) {
         if (element is MakefileRule && element.isUnused()) {
             holder.newAnnotation(HighlightSeverity.INFORMATION, "Redundant rule").range(element)
                 .highlightType(ProblemHighlightType.LIKE_UNUSED_SYMBOL)
