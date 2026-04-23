@@ -17,15 +17,22 @@ class MakefileParserDefinition : ParserDefinition {
     }
 
     override fun getFileNodeType() = FILE
+
     override fun getWhitespaceTokens() = WHITE_SPACES
+
     override fun getCommentTokens() = COMMENTS
+
     override fun getStringLiteralElements() = TokenSet.EMPTY
 
-    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(
+        left: ASTNode?,
+        right: ASTNode?,
+    ) = ParserDefinition.SpaceRequirements.MAY
 
     override fun createFile(viewProvider: FileViewProvider) = MakefileFile(viewProvider)
 
     override fun createParser(project: Project?) = MakefileParser()
+
     override fun createLexer(project: Project?) = MakefileLexerAdapter()
 
     override fun createElement(node: ASTNode?) = MakefileTypes.Factory.createElement(node)

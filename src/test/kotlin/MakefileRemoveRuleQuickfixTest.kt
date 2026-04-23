@@ -1,6 +1,8 @@
 
+
 class MakefileRemoveRuleQuickfixTest : DockDockTestCase() {
     fun testSingle() = doTest()
+
     fun testTwo() = doTest()
 
     fun doTest() {

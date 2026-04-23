@@ -22,6 +22,7 @@ class MakefileStructureViewElement(private val element: PsiElement) : StructureV
     }
 
     override fun canNavigate() = (element as? NavigationItem)?.canNavigate() ?: false
+
     override fun canNavigateToSource() = (element as? NavigationItem)?.canNavigateToSource() ?: false
 
     override fun navigate(requestFocus: Boolean) {

@@ -1,6 +1,8 @@
 
+
 class MakefileCreateRuleQuickfixTest : DockDockTestCase() {
     fun testSimple() = doTest()
+
     fun testMiddle() = doTest()
 
     fun doTest() {

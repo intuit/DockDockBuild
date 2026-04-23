@@ -4,3 +4,6 @@ build/
 out/
 
 .DS_Store
+.kotlin/
+.devassist-plugins.lock.json
+.intellijPlatform/

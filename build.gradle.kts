@@ -1,209 +1,193 @@
+import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-fun properties(key: String) = project.findProperty(key).toString()
+fun properties(key: String) = providers.gradleProperty(key)
 
 plugins {
-    // Java support
     id("java")
-    // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.9.0"
-    // Gradle IntelliJ Plugin
-    id("org.jetbrains.intellij") version "1.10.1"
-    // Gradle Changelog Plugin
-    id("org.jetbrains.changelog") version "1.3.1"
-    // Gradle Qodana Plugin
-    id("org.jetbrains.qodana") version "0.1.13"
-    // Jacoco
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.intellij.platform")
+    id("org.jetbrains.changelog")
     id("jacoco")
-    // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
-group = properties("pluginGroup")
-version = properties("pluginVersion")
+group = properties("pluginGroup").get()
+version = properties("pluginVersion").get()
 
-// Configure project's dependencies
-repositories {
-    mavenCentral()
+kotlin {
+    sourceSets {
+        main {
+            kotlin.srcDir("src/main/kotlin")
+        }
+    }
+    jvmToolchain(properties("javaVersion").get().toInt())
 }
 
-// Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
-intellij {
-    pluginName.set(properties("pluginName"))
-    version.set(properties("platformVersion"))
-    type.set(properties("platformType"))
-
-    // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-    plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
+java {
+    sourceSets {
+        main {
+            java.srcDirs("src/main/java", "gen")
+            resources.srcDirs("src/main/resources")
+        }
+        create("uiTest") {
+            kotlin.srcDirs("src/uiTest/kotlin")
+            resources.srcDirs("src/uiTest/resources")
+            compileClasspath += sourceSets.main.get().output
+            runtimeClasspath += sourceSets.main.get().output
+        }
+    }
 }
 
-// Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
-changelog {
-    version.set(properties("pluginVersion"))
-    groups.set(emptyList())
-}
-
-// Configure Gradle Qodana Plugin - read more: https://github.com/JetBrains/gradle-qodana-plugin
-qodana {
-    cachePath.set(projectDir.resolve(".qodana").canonicalPath)
-    reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
-    saveReport.set(true)
-    showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
-}
-
-tasks.named<ProcessResources>("processResources") {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+val uiTestImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.testImplementation.get())
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-core:2.13.3")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
-    testImplementation("org.hamcrest:hamcrest-all:1.3")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.18.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3")
+    testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("junit:junit:4.13.2")
+
+    uiTestImplementation("com.intellij.remoterobot:remote-robot:0.11.23")
+    uiTestImplementation("com.intellij.remoterobot:remote-fixtures:0.11.23")
+    uiTestImplementation("com.squareup.okhttp3:okhttp:4.12.0")
+    uiTestImplementation("junit:junit:4.13.2")
+
+    intellijPlatform {
+        intellijIdeaCommunity(properties("platformVersion").get())
+        testFramework(TestFrameworkType.Platform)
+    }
 }
 
-tasks {
-    // Set the JVM compatibility versions
-    properties("javaVersion").let {
-        withType<JavaCompile> {
-            sourceCompatibility = it
-            targetCompatibility = it
-        }
-        withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = it
-        }
-    }
+intellijPlatform {
+    pluginConfiguration {
+        name = properties("pluginName")
+        version = properties("pluginVersion")
 
-    wrapper {
-        gradleVersion = properties("gradleVersion")
-    }
-
-    patchPluginXml {
-        version.set(properties("pluginVersion"))
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
-
-        // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
-        pluginDescription.set(
-            projectDir.resolve("README.md").readText().lines().run {
+        description =
+            providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
                 val start = "<!-- Plugin description -->"
                 val end = "<!-- Plugin description end -->"
 
-                if (!containsAll(listOf(start, end))) {
-                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                with(it.lines()) {
+                    if (!containsAll(listOf(start, end))) {
+                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                    }
+                    subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
                 }
-                subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").run { markdownToHTML(this) }
-        )
-
-        // Get the latest available change notes from the changelog file
-        changeNotes.set(
-            provider {
-                changelog.run {
-                    getOrNull(properties("pluginVersion")) ?: getLatest()
-                }.toHTML()
             }
-        )
-    }
 
-    kotlin {
-        sourceSets {
-            map { it.kotlin.srcDir("src/main/kotlin") }
+        val changelog = project.changelog
+        changeNotes =
+            properties("pluginVersion").map { pluginVersion ->
+                with(changelog) {
+                    renderItem(
+                        (getOrNull(pluginVersion) ?: getUnreleased())
+                            .withHeader(false)
+                            .withEmptySections(false),
+                        Changelog.OutputType.HTML,
+                    )
+                }
+            }
+
+        ideaVersion {
+            sinceBuild = properties("pluginSinceBuild")
         }
     }
 
-    java {
-        sourceSets {
-            map {
-                it.java.srcDirs("src/main/java", "gen")
-                it.resources.srcDirs("src/main/resources")
+    signing {
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+    }
+
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        channels =
+            properties("pluginVersion").map {
+                listOf(it.split('-').getOrElse(1) { "default" }.split('.').first())
             }
+    }
+}
+
+intellijPlatformTesting {
+    runIde {
+        register("runIdeForUiTests") {
+            task {
+                jvmArgumentProviders +=
+                    CommandLineArgumentProvider {
+                        listOf(
+                            "-Drobot-server.port=8082",
+                            "-Dide.mac.message.dialogs.as.sheets=false",
+                            "-Djb.privacy.policy.text=<!--999.999-->",
+                            "-Djb.consents.confirmation.enabled=false",
+                        )
+                    }
+            }
+            plugins {
+                robotServerPlugin()
+            }
+        }
+    }
+}
+
+val uiTest =
+    task<Test>("uiTest") {
+        description = "Runs UI tests against a running IDE instance (start with runIdeForUiTests first)."
+        group = "verification"
+        testClassesDirs = sourceSets["uiTest"].output.classesDirs
+        classpath = sourceSets["uiTest"].runtimeClasspath
+    }
+
+changelog {
+    groups.empty()
+    versionPrefix = ""
+}
+
+tasks {
+    named<ProcessResources>("processResources") {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+
+    wrapper {
+        gradleVersion = properties("gradleVersion").get()
+    }
+
+    withType<KotlinCompile> {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
 
     jar {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
-
-        // Run ktlint before creating the JAR
         dependsOn(ktlintCheck)
         archiveFileName.set("DockDockBuild.jar")
 
         manifest {
-            attributes("Main-Class:com.intuit.ddb")
+            attributes("Main-Class" to "com.intuit.ddb.CmdProcessBuilder")
         }
 
         from(sourceSets.main.get().output)
-
         dependsOn(configurations.runtimeClasspath)
         from({
             configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-        })
-    }
-
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-
-//        publishAlways()
-
-        fun execCommandWithOutput(input: String): String {
-            return try {
-                val parts = input.split("\\s".toRegex())
-                val proc = ProcessBuilder(*parts.toTypedArray())
-                    .directory(rootDir)
-                    .redirectOutput(ProcessBuilder.Redirect.PIPE)
-                    .redirectError(ProcessBuilder.Redirect.PIPE)
-                    .start()
-                proc.waitFor(20, TimeUnit.SECONDS)
-                proc.inputStream.bufferedReader().readText()
-            } catch (e: java.io.IOException) {
-                "<empty>"
-            }
-        }
-
-        // Fastest way to safely check Git https://gist.github.com/sindresorhus/3898739
-        value("Git Branch", execCommandWithOutput("git symbolic-ref --short HEAD"))
-        value("Git Commit", execCommandWithOutput("git rev-parse --verify HEAD"))
-
-        val gitStatus = execCommandWithOutput("git status --porcelain")
-        if (gitStatus.isNotEmpty()) {
-            value("Git Local Changes", gitStatus)
-            tag("dirty")
-        }
-
-        if (!System.getenv("CI").isNullOrEmpty()) {
-            tag("CI")
-        }
-    }
-
-    // Configure UI tests plugin
-    // Read more: https://github.com/JetBrains/intellij-ui-test-robot
-    runIdeForUiTests {
-        systemProperty("robot-server.port", "8082")
-        systemProperty("ide.mac.message.dialogs.as.sheets", "false")
-        systemProperty("jb.privacy.policy.text", "<!--999.999-->")
-        systemProperty("jb.consents.confirmation.enabled", "false")
+        },)
     }
 
     test {
-        finalizedBy(jacocoTestReport) // report is always generated after tests run
-    }
-    jacocoTestReport {
-        dependsOn(test) // tests are required to run before generating the report
+        finalizedBy(jacocoTestReport)
     }
 
-    signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+    jacocoTestReport {
+        dependsOn(test)
     }
 
     publishPlugin {
-        dependsOn("patchChangelog")
-        token.set(System.getenv("PUBLISH_TOKEN"))
-        // pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
-        // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
-        // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
+        dependsOn(patchChangelog)
     }
 }

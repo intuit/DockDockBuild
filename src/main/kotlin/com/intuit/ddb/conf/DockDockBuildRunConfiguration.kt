@@ -1,29 +1,30 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.intuit.ddb.conf
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.intellij.execution.Executor
 import com.intellij.execution.configuration.EnvironmentVariablesData
-import com.intellij.execution.configurations.* // ktlint-disable no-wildcard-imports
+import com.intellij.execution.configurations.*
 import com.intellij.execution.process.ColoredProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
+import com.intellij.ide.plugins.PluginManagerCore
+import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
-import com.intellij.util.lang.UrlClassLoader
-import com.intuit.ddb.* // ktlint-disable no-wildcard-imports
+import com.intuit.ddb.*
 import org.jdom.Element
 import java.io.File
-import java.net.URLDecoder
 
 // This class handles the *run* configurations of the plugin
 open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDockBuildRunConfigurationFactory, name: String) :
     LocatableConfigurationBase<RunProfileState>(project, factoryDocker, name) {
-
     var makefileFilePath = ""
     var dockerfileDir = ""
     var dockerImageUrl = ""
-    var isDockerImage = ""
-    var isDockerfile = ""
+    var isDockerImage = false
+    var isDockerfile = true
     var target = ""
     var envScriptPath = ""
     var arguments = ""
@@ -42,7 +43,10 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
     }
 
     override fun checkConfiguration() {
-        // TODO:check for valid configuration
+        if (makefileFilePath.isBlank()) throw RuntimeConfigurationError("Makefile path must not be empty")
+        if (target.isBlank()) throw RuntimeConfigurationError("Target must not be empty")
+        if (isDockerfile && dockerfileDir.isBlank()) throw RuntimeConfigurationError("Dockerfile path must not be empty")
+        if (isDockerImage && dockerImageUrl.isBlank()) throw RuntimeConfigurationError("Docker image URL must not be empty")
     }
 
     override fun getConfigurationEditor() = DockDockBuildRunConfigurationEditor(project)
@@ -53,8 +57,8 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         child.setAttribute(MAKEFILE_FILEPATH, makefileFilePath)
         child.setAttribute(DOCKER_FILENAME, dockerfileDir)
         child.setAttribute(DOCKER_IMAGE, dockerImageUrl)
-        child.setAttribute(IS_DOCKER_IMAGE, isDockerImage)
-        child.setAttribute(IS_DOCKER_FILE, isDockerfile)
+        child.setAttribute(IS_DOCKER_IMAGE, isDockerImage.toString())
+        child.setAttribute(IS_DOCKER_FILE, isDockerfile.toString())
         child.setAttribute(TARGET, target)
         child.setAttribute(ENV_SCRIPT, envScriptPath)
         child.setAttribute(ARGUMENTS, arguments)
@@ -68,8 +72,8 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
             makefileFilePath = child.getAttributeValue(MAKEFILE_FILEPATH) ?: ""
             dockerfileDir = child.getAttributeValue(DOCKER_FILENAME) ?: ""
             dockerImageUrl = child.getAttributeValue(DOCKER_IMAGE) ?: ""
-            isDockerImage = child.getAttributeValue(IS_DOCKER_IMAGE) ?: ""
-            isDockerfile = child.getAttributeValue(IS_DOCKER_FILE) ?: ""
+            isDockerImage = child.getAttributeValue(IS_DOCKER_IMAGE)?.toBoolean() ?: false
+            isDockerfile = child.getAttributeValue(IS_DOCKER_FILE)?.toBoolean() ?: true
             target = child.getAttributeValue(TARGET) ?: ""
             envScriptPath = child.getAttributeValue(ENV_SCRIPT) ?: ""
             arguments = child.getAttributeValue(ARGUMENTS) ?: ""
@@ -77,29 +81,34 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         }
     }
 
-    override fun getState(executor: Executor, executionEnvironment: ExecutionEnvironment): RunProfileState? {
-
-        handleParams()
+    override fun getState(
+        executor: Executor,
+        executionEnvironment: ExecutionEnvironment,
+    ): RunProfileState? {
+        val paramsFile = handleParams()
 
         val decodedCP = getClassPath()
         val userDir = System.getProperty("user.dir")
 
         return object : CommandLineState(executionEnvironment) {
             override fun startProcess(): ProcessHandler {
-
                 // java -cp <classPath> com.intuit.ddb.CmdProcessBuilder <parameters for Java class>
                 val params = ParametersList()
-                params.addAll("-cp", decodedCP, PROCESS_TO_RUN, getParamsFile(project))
+                params.addAll("-cp", decodedCP, PROCESS_TO_RUN, paramsFile)
 
-                val cmd = GeneralCommandLine()
-                    .withExePath("java")
-                    .withWorkDirectory(userDir)
-                    .withEnvironment(environmentVariables.envs)
-                    .withParentEnvironmentType(
-                        if (environmentVariables.isPassParentEnvs) GeneralCommandLine.ParentEnvironmentType.CONSOLE
-                        else GeneralCommandLine.ParentEnvironmentType.NONE
-                    )
-                    .withParameters(params.list)
+                val cmd =
+                    GeneralCommandLine()
+                        .withExePath("java")
+                        .withWorkDirectory(userDir)
+                        .withEnvironment(environmentVariables.envs)
+                        .withParentEnvironmentType(
+                            if (environmentVariables.isPassParentEnvs) {
+                                GeneralCommandLine.ParentEnvironmentType.CONSOLE
+                            } else {
+                                GeneralCommandLine.ParentEnvironmentType.NONE
+                            },
+                        )
+                        .withParameters(params.list)
 
                 val processHandler = ColoredProcessHandler(cmd)
                 ProcessTerminatedListener.attach(processHandler)
@@ -109,17 +118,20 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         }
     }
 
-    private fun handleParams() {
-
+    private fun handleParams(): String {
         // Plugin (project) configuration
-        val dockerPath = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.dockerPath
-        val codePath = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.codePath
-        val m2Path = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.mavenCachePath
-        val advancedDockerSettings = project.getService(DockDockBuildProjectSettings::class.java)
-            .settings.advancedDockerSettings
+        val dockerPath =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.dockerPath
+        val codePath =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.codePath
+        val m2Path =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.mavenCachePath
+        val advancedDockerSettings =
+            project.getService(DockDockBuildProjectSettings::class.java)
+                .settings.advancedDockerSettings
 
         // Runtime configurations
         // on host
@@ -129,29 +141,42 @@ open class DockDockBuildRunConfiguration(project: Project, factoryDocker: DockDo
         val makefilePath = if (makefileFilePath != "") getMakefileDir(project, makefileFilePath) else "."
         val envScriptPath = if (envScriptPath != "") getSetEnvRelPath(project, envScriptPath) else ""
 
-        // create Parameters obj and write to file to be used in CmdProcessBuilder
+        // Write params to a unique temp file so concurrent runs don't clobber each other.
         val objectMapper = ObjectMapper()
-        val cmdParams = Parameters(
-            dockerPath, dockerfileDir, dockerImageUrl, isDockerImage.toBoolean(),
-            makefilePath, makefileFileName, target, codePath, m2Path, envScriptPath, advancedDockerSettings
-        )
-        objectMapper.writeValue(File(getParamsFile(project)), cmdParams)
+        val cmdParams =
+            Parameters(
+                dockerPath, dockerfileDir, dockerImageUrl, isDockerImage,
+                makefilePath, makefileFileName, target, codePath, m2Path, envScriptPath, advancedDockerSettings,
+            )
+        val paramsFile = File.createTempFile("dockDockBuildParams", ".json")
+        paramsFile.deleteOnExit()
+        objectMapper.writeValue(paramsFile, cmdParams)
+        return paramsFile.absolutePath
     }
 
-    // iterate over IntelliJ's UrlClassLoader and find DockDockBuild.jar classpath to call CmdProcessBuilder
     private fun getClassPath(): String {
-        val jarRegex = Regex("DockDockBuild.jar")
-        var classpath = ""
+        // Ask IntelliJ's plugin manager for the plugin's install path, then find the jar inside it.
+        // This works regardless of classloader implementation (PluginClassLoader, URLClassLoader, etc.)
+        val pluginId = PluginId.getId(PLUGIN_ID)
+        val descriptor =
+            PluginManagerCore.getPlugin(pluginId)
+                ?: throw RuntimeException("Plugin descriptor not found for id: $pluginId")
 
-        for (cp in (CmdProcessBuilder::class.java.classLoader as UrlClassLoader).urls) {
-            if (jarRegex.containsMatchIn(cp.file)) {
-                classpath = cp.path
-                break
-            }
+        val pluginPath = descriptor.pluginPath
+        val jar = pluginPath.resolve("lib/DockDockBuild.jar").toFile()
+        if (jar.exists()) {
+            return jar.absolutePath
         }
-        if (classpath == "") {
-            throw Error("DockDockBuild is not in Java's classLoader")
+
+        // Fallback: search lib/ for any DockDockBuild jar
+        val libDir = pluginPath.resolve("lib").toFile()
+        if (libDir.isDirectory) {
+            val found =
+                libDir.listFiles { f -> f.name.startsWith("DockDockBuild") && f.name.endsWith(".jar") }
+                    ?.firstOrNull()
+            if (found != null) return found.absolutePath
         }
-        return URLDecoder.decode(classpath, "UTF-8")
+
+        throw RuntimeException("DockDockBuild.jar not found under plugin path: $pluginPath")
     }
 }

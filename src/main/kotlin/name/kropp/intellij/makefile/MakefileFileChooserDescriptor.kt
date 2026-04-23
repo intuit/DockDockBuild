@@ -9,7 +9,10 @@ class MakefileFileChooserDescriptor : FileChooserDescriptor(true, false, false, 
         title = "Makefile"
     }
 
-    override fun isFileVisible(file: VirtualFile, showHiddenFiles: Boolean) = when {
+    override fun isFileVisible(
+        file: VirtualFile,
+        showHiddenFiles: Boolean,
+    ) = when {
         !showHiddenFiles && FileElement.isFileHidden(file) -> false
         file.isDirectory -> true
         else -> file.name.endsWith(".mk") || file.name == "Makefile"
